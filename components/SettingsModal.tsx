@@ -47,10 +47,10 @@ export function SettingsModal({ open, onClose }: { open: boolean, onClose: () =>
         <Box sx={{ mt: 3, minWidth: 300 }}>
 
           <Typography sx={{ mb: 1 }}>
-            Enter <Link href='https://platform.openai.com/account/api-keys'>OpenAI API Key</Link> {needsApiKey ? '(required)' : '(not required)'}
+            Enter <Link href='https://platform.openai.com/account/api-keys'>OpenAI API Key</Link> {needsApiKey ? '(required)' : '(not required)'}<br/><Typography variant="soft">sk-</Typography>
           </Typography>
 
-          <Input variant='outlined' placeholder={'sk-...'} error={needsApiKey && !isValidKey}
+          <Input variant='outlined' type='password' error={needsApiKey && !isValidKey}
                  value={apiKey} onChange={handleApiKeyChange} onKeyDown={handleApiKeyDown} />
 
           {!needsApiKey && (
