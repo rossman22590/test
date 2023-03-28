@@ -30,7 +30,7 @@ export function SettingsModal({ open, onClose }: { open: boolean, onClose: () =>
     setApiKey((e.target as HTMLInputElement).value);
 
   const handleGptModelChange = (e: React.FocusEvent | React.MouseEvent | React.KeyboardEvent | null, value: string | null) =>
-    setChatModelId((value || 'gpt-4') as ChatModelId);
+    setChatModelId((value || 'gpt-3.5-turbo') as ChatModelId);
 
   const handleApiKeyDown = (e: React.KeyboardEvent) =>
     (e.key === 'Enter') && onClose();
