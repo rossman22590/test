@@ -1,4 +1,4 @@
-export type SystemPurposeId = 'Catalyst' | 'Custom' | 'Developer' | 'Executive' | 'Generic' | 'Scientist';
+export type SystemPurposeId = 'Catalyst' | 'Custom' | 'Developer' | 'Executive' | 'Generic' | 'Scientist' | 'Tutor' | 'Doctor';
 
 type SystemPurposeData = {
   title: string;
