@@ -47,7 +47,8 @@ export function SettingsModal({ open, onClose }: { open: boolean, onClose: () =>
         <Box sx={{ mt: 3, minWidth: 300 }}>
 
           <Typography sx={{ mb: 1 }}>
-            Enter <Link href='https://platform.openai.com/account/api-keys'>OpenAI API Key</Link> {needsApiKey ? '(required)' : '(not required)'}<br/><Typography variant="soft">sk-</Typography>
+            Enter <Link href='https://platform.openai.com/account/api-keys'>OpenAI API Key</Link> {needsApiKey ? '(required)' : '(not required)'}
+            <br/><Typography variant="soft">sk-…</Typography>
           </Typography>
 
           <Input variant='outlined' type='password' error={needsApiKey && !isValidKey}
@@ -69,8 +70,8 @@ export function SettingsModal({ open, onClose }: { open: boolean, onClose: () =>
               value={chatModelId}
               onChange={handleGptModelChange}
             >
-              <Option value={'gpt-4'}>GPT-4</Option>
               <Option value={'gpt-3.5-turbo'}>GPT-3.5 Turbo</Option>
+              <Option value={'gpt-4'}>GPT-4</Option>
               {/*<Option value={'gpt-4-32k'}>GPT-4-32k (not out yet)</Option>*/}
             </Select>
 
