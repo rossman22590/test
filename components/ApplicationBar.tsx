@@ -56,10 +56,10 @@ export function ApplicationBar(props: { onClick: () => void, onSettingsClick: ()
           </Button>
         </NoSSR>
       </Typography>
-      <Button component="a" href="https://platform.openai.com/account/usage" variant='plain'>
+      <Button component="a" href="https://platform.openai.com/account/usage" rel="noreferrer" target="_blank" variant='plain'>
         API Usage
       </Button>
-      
+
     </Sheet>
   );
 }
