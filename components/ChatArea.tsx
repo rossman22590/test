@@ -148,13 +148,13 @@ export function ChatArea(props: { onShowSettings: () => void, sx?: SxProps }) {
   };
 
   const handleSendMessage = (userMessage: string) => {
+    // prepend 'system' message if missing
     const history = [...messages];
-    // DON'T prepend 'system' message if missing
-    // if (!history.length) {
-    //   const systemMessage = SystemPurposes[systemPurposeId].systemMessage
-    //     .replaceAll('{{Today}}', new Date().toISOString().split('T')[0]);
-    //   history.push(createUiMessage('system', systemMessage));
-    // }
+    if (!history.length) {
+      const systemMessage = SystemPurposes[systemPurposeId].systemMessage
+        .replaceAll('{{Today}}', new Date().toISOString().split('T')[0]);
+      history.push(createUiMessage('system', systemMessage));
+    }
 
     history.push(createUiMessage('user', userMessage));
     setMessages(history);
