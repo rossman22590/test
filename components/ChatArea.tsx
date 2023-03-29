@@ -174,7 +174,7 @@ export function ChatArea(props: { onShowSettings: () => void, sx?: SxProps }) {
 
       {/* Application Bar */}
       <ApplicationBar
-        onDoubleClick={handleConversationClear} onSettingsClick={props.onShowSettings}
+        onClick={handleConversationClear} onSettingsClick={props.onShowSettings}
         sx={{
           position: 'sticky', top: 0, zIndex: 20,
           background: process.env.NODE_ENV === 'development'

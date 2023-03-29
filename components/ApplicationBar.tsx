@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-import { IconButton, Sheet, Typography, useColorScheme, useTheme } from '@mui/joy';
+import { Button, IconButton, Sheet, Typography, useColorScheme, useTheme } from '@mui/joy';
 import { SxProps } from '@mui/joy/styles/types';
 import DarkModeIcon from '@mui/icons-material/DarkMode';
 import SettingsOutlinedIcon from '@mui/icons-material/SettingsOutlined';
@@ -13,7 +13,7 @@ import { useSettingsStore } from '@/lib/store';
 /**
  * The top bar of the application, with the model and purpose selection, and menu/settings icons
  */
-export function ApplicationBar(props: { onDoubleClick: () => void, onSettingsClick: () => void, sx?: SxProps }) {
+export function ApplicationBar(props: { onClick: () => void, onSettingsClick: () => void, sx?: SxProps }) {
   const theme = useTheme();
   const { mode: colorMode, setMode: setColorMode } = useColorScheme();
 
@@ -45,11 +45,14 @@ export function ApplicationBar(props: { onDoubleClick: () => void, onSettingsCli
         fontFamily: theme.vars.fontFamily.code, fontSize: '1rem', lineHeight: 1.75,
         my: 'auto',
         flexGrow: 1,
-      }} onDoubleClick={props.onDoubleClick}>
+      }}>
         <NoSSR>
           {ChatModels[chatModelId]?.title || 'Select Model'}
           <span style={{ opacity: 0.5 }}> · </span>
           {SystemPurposes[systemPurposeId].title}
+          <Button variant='plain' color='neutral' onClick={props.onClick}>
+            Edit
+          </Button>
         </NoSSR>
       </Typography>
 
