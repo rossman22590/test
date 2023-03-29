@@ -62,7 +62,7 @@ export function Composer(props: { disableSend: boolean; sendMessage: (text: stri
   const handleStopClicked = () => props.stopGeneration();
 
   const handleKeyPress = (e: React.KeyboardEvent) => {
-    if (e.key === 'Enter' && !e.shiftKey) {
+    if (e.key === 'Enter' && !e.shiftKey && !e.altKey) {
       if (!props.disableSend)
         handleSendClicked();
       e.preventDefault();

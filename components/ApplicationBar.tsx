@@ -30,7 +30,7 @@ export function ApplicationBar(props: { onClick: () => void, onSettingsClick: ()
       ...(props.sx || {}),
     }}>
 
-      <IconButton variant='plain' color='neutral' onClick={handleDarkModeToggle}>
+      <IconButton variant='plain' onClick={handleDarkModeToggle}>
         <DarkModeIcon />
       </IconButton>
 
@@ -47,18 +47,15 @@ export function ApplicationBar(props: { onClick: () => void, onSettingsClick: ()
         flexGrow: 1,
       }}>
         <NoSSR>
-          {ChatModels[chatModelId]?.title || 'Select Model'}
+          <Button variant='outlined' onClick={props.onSettingsClick}>
+            {ChatModels[chatModelId]?.title || 'Select Model'}
+          </Button>
           <span style={{ opacity: 0.5 }}> · </span>
-          {SystemPurposes[systemPurposeId].title}
-          <Button variant='plain' color='neutral' onClick={props.onClick}>
-            Edit
+          <Button variant='outlined' onClick={props.onClick}>
+            {SystemPurposes[systemPurposeId].title}
           </Button>
         </NoSSR>
       </Typography>
-
-      <IconButton variant='plain' color='neutral' onClick={props.onSettingsClick}>
-        <SettingsOutlinedIcon />
-      </IconButton>
     </Sheet>
   );
 }
