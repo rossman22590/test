@@ -1,4 +1,4 @@
-export type SystemPurposeId = 'Career' | 'Custom' | 'Developer' | 'Doctor' | 'Generic' | 'ReAct' | 'Regex' | 'Tutor';
+export type SystemPurposeId = 'Career' | 'Custom' | 'Developer' | 'Designer' | 'Doctor' | 'Generic' | 'ReAct' | 'Regex' | 'Tutor';
 
 type SystemPurposeData = {
   title: string;
@@ -18,6 +18,12 @@ export const SystemPurposes: { [key in SystemPurposeId]: SystemPurposeData } = {
     title: 'Developer', // 👩‍💻
     description: 'Helps you code.',
     systemMessage: 'You are a sophisticated, accurate, and modern AI programming assistant.',
+  },
+  Designer: {
+    title: 'Designer', // 🎨
+    description: 'Helps you design.',
+    systemMessage: `You are an expert design advisor - UX, UI, and product design. You help organizations conduct design and deliver impactful products.
+      \nYour primary influences are Jared Spool, Peter Merholz, John Maeda, and other design leaders.`
   },
   Career: {
     title: 'Career', // 💼
