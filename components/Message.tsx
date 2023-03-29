@@ -294,8 +294,9 @@ export function Message(props: { uiMessage: UiMessage, composerBusy: boolean, on
   let background = theme.vars.palette.background.body;
   let textBackground: string | undefined = undefined;
   if (message.role === 'system') {
-    background = theme.vars.palette.background.body;
-    textBackground = theme.vars.palette.primary.plainHoverBg;
+    // background = theme.vars.palette.background.body;
+    // textBackground = theme.vars.palette.primary.plainHoverBg;
+    display = 'none';
   } else if (message.sender === 'You') {
     background = theme.vars.palette.primary.plainHoverBg;
   } else if (message.role === 'assistant') {
