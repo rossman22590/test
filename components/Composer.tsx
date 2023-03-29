@@ -275,10 +275,10 @@ export function Composer(props: { disableSend: boolean; sendMessage: (text: stri
           </Box>
 
           {/* [desktop-only] row with History button */}
-          <Stack direction='row' fullWidth sx={{ ...hideOnMobile, flexDirection: { xs: 'column', md: 'row' }, justifyContent: 'flex-end' }}>
+          <Stack direction='row' spacing={1} sx={{ ...hideOnMobile, flexDirection: { xs: 'column', md: 'row' }, justifyContent: 'flex-end' }}>
             <NoSSR>
               {history.length > 0 && (
-                <Button variant='plain' color='neutral' endDecorator={<KeyboardArrowUpIcon />} onClick={showHistory}>
+                <Button fullWidth variant='plain' color='neutral' endDecorator={<KeyboardArrowUpIcon />} onClick={showHistory}>
                   History
                 </Button>
               )}
