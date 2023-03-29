@@ -65,7 +65,8 @@ export const SystemPurposes: { [key in SystemPurposeId]: SystemPurposeData } = {
     description: 'User-defined purpose',
     systemMessage: `You are an expert at regular expressions (regex).
       \nYou will be asked to either write a new regular expression, or explain an existing one in detail. 
-      \nWhen explaining, provide an example of what the regex does first and then describe each component part.`,
+      \nWhen explaining, provide an example of what the regex does first and then describe each component part.
+      \nWhen writing a new regex, provide both a robust option and a simple option if possible.`,
   },
   Custom: {
     title: 'Custom', // ✨
