@@ -1,3 +1,10 @@
+# Fork notes
+Run express server for notion logging:
+```
+$ cd <path>/nextjs-chatgpt-app
+$ node server.js
+```
+
 # Next.js ChatGPT 🤖💬
 
 🚨 **Attention! We're adding cool new features to the app!** 🚨

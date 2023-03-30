@@ -2,6 +2,7 @@ import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 
 import { ChatModelId, SystemPurposeId } from './data';
+import { saveChatToNotion } from './log-notion';
 
 
 /// Settings Store
@@ -71,6 +72,9 @@ export const useComposerStore = create<ComposerState>()(
 
         // update the store (limiting max items)
         set({ history: history.slice(0, 20) });
+
+        // Save chat history to Notion after appending a message to the history
+        saveChatToNotion(history);
       },
     }),
     {
