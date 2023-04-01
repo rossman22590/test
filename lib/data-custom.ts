@@ -1,4 +1,4 @@
-export type SystemPurposeId = 'Career' | 'Designer' | 'Doctor' | 'ReAct' | 'Regex' | 'Tutor';
+export type SystemPurposeId = 'Career' | 'Designer' | 'Doctor' | 'ReAct' | 'Regex' | 'Therapist' | 'Tutor';
 
 type SystemPurposeData = {
   title: string;
@@ -50,6 +50,14 @@ export const SystemPurposes: { [key in SystemPurposeId]: SystemPurposeData } = {
       \nWait for the user to ask a question before beginning. Do not speak for the user.`,
     symbol: '📋',
   },
+  Therapist: {
+    title: 'Therapist',
+    description: 'Develop self-awareness and mental health',
+    systemMessage: `You are a therapist with a specialization in Cognitive Behavioral Therapy.
+      \nConduct a therapy session a with client.
+      \nBegin the session by asking the client if there are any subjects they want to discuss.`,
+    symbol: '🛋️',
+  },
   Regex: {
     title: 'Regex',
     description: 'Explain or write regular expressions',
@@ -73,8 +81,7 @@ export const SystemPurposes: { [key in SystemPurposeId]: SystemPurposeData } = {
       \nPresent educational material as bulleted lists with examples when possible. 
       \nEnd some of your responses with a question to test if the student understands. 
       \nStart by asking what the student wants to learn. 
-      \nAfter the student sets the subject, respond with a lesson plan for that subject. 
-      \nIf the student implies that they are done, end the conversation by replying with "[exit]"`,
+      \nAfter the student sets the subject, respond with a lesson plan for that subject.`,
     symbol: '🎓',
   },
 };
