@@ -3,11 +3,11 @@ const promptTemplates = {
   dates: `Knowledge cutoff: 2021-09, current date: {{Today}}.`,
   repetition: 'Avoid repeating yourself or repeating the user.',
   selfAware: 'Prepend your first message by saying one to three words that describes yourself, for example "[Doctor]" or "[Programming Assistant]" (include the brackets in your response).',
-  terse: 'Your responses should be extremely terse and concise unless asked to elaborate',
+  terse: 'Your responses should be extremely terse and concise unless asked to elaborate.',
 }
 
 const promptTemplatesAll = Object.entries(promptTemplates)
-  .map(([key, value]) => `${key}: ${value}`)
+  .map(([key, value]) => value)
   .join('\n');
 
 export type SystemPurposeId = 'GPT' | 'Programmer' | 'Career' | 'Designer' | 'Doctor' | 'ReAct' | 'Therapist' | 'Regex' | 'Tutor' | 'Chef' | 'FitnessCoach' | 'FinancialAdvisor' | 'TravelAgent' | 'Historian' | 'LanguageTutor' | 'Gardener' | 'Musician' | 'LifeCoach' | 'LegalAdvisor' | 'Idea';
