@@ -13,8 +13,6 @@ const promptTemplates = {
   dates: `Knowledge cutoff: 2021-09, current date (today): ${new Date().toISOString().slice(0, 10)}.`,
 }
 
-const promptTemplatesAll = Object.entries(promptTemplates).map(([key, value]) => value).join('\n');
-
 
 type SystemPurposeData = {
   title: string;
@@ -33,7 +31,7 @@ export const SystemPurposes: { [key in SystemPurposeId]: SystemPurposeData } = {
       Speak as an expert or deterministic computer.
       Be concise, on-topic, and avoid repetition.
       Show work for math and don't make up answers.
-      Knowledge cutoff: 2021-09, current date: 2023-04-03.
+      Knowledge cutoff: 2021-09, current date: ${new Date().toISOString().slice(0, 10)}.
       ---
       The characters are listed and described in this object:
       characters = {
