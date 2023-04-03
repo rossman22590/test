@@ -10,7 +10,17 @@ const promptTemplatesAll = Object.entries(promptTemplates)
   .map(([key, value]) => `${key}: ${value}`)
   .join('\n');
 
-export const SystemPurposes = {
+export type SystemPurposeId = 'Programmer' | 'Career' | 'Designer' | 'Doctor' | 'ReAct' | 'Therapist' | 'Regex' | 'Tutor' | 'Chef' | 'FitnessCoach' | 'FinancialAdvisor' | 'TravelAgent' | 'Historian' | 'LanguageTutor' | 'Gardener' | 'Musician' | 'LifeCoach' | 'LegalAdvisor' | 'Idea';
+
+type SystemPurposeData = {
+  title: string;
+  description: string | JSX.Element;
+  systemMessage: string;
+  symbol: string;
+}
+
+export const SystemPurposes: { [key in SystemPurposeId]: SystemPurposeData } = {
+
   Programmer: {
     title: 'Programmer',
     description: 'Helps you code',
@@ -264,3 +274,7 @@ export const SystemPurposes = {
     symbol: '💡',
   },
 };
+
+// console.log(Object.entries(SystemPurposes)
+//   .map(([key, value]) => `'${key}'`)
+//   .join(' | '));
