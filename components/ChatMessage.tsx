@@ -71,9 +71,10 @@ const inferCodeLanguage = (markdownLanguage: string, code: string): string | nul
 const detectPurpose = (text: string, disableSend: boolean, messageTyping: boolean) => {
   const purposes = [ 'GPT', 'Programmer', 'Career', 'Chef', 'Designer', 'Doctor', 'Handy', 'Language Tutor', 'Map', 'Therapist', 'Tutor', 'Fitness Coach', 'Financial Advisor', 'Historian', 'Gardener', 'Musician', 'Legal Advisor' ];
   const purposesRegex = new RegExp(`\\[(${purposes.join('|')})\\]`, 'g');
-  const googleMapsUrlRegex = /https:\/\/www\.google\.com\/maps\/[^ ]+/g;
   let matchPurpose;
-  let matchGoogleMapsUrl;
+
+  // const googleMapsUrlRegex = /https:\/\/www\.google\.com\/maps\/[^ ]+/g;
+  // let matchGoogleMapsUrl;
 
   if (!messageTyping && !disableSend) {
     const uniquePurposes = new Set();
@@ -84,9 +85,9 @@ const detectPurpose = (text: string, disableSend: boolean, messageTyping: boolea
       console.log(`Response matched purpose: ${matchPurpose}`);
     });
 
-    while ((matchGoogleMapsUrl = googleMapsUrlRegex.exec(text)) !== null) {
-      window.open(matchGoogleMapsUrl[0], '_blank');
-    }
+    // while ((matchGoogleMapsUrl = googleMapsUrlRegex.exec(text)) !== null) {
+    //   window.open(matchGoogleMapsUrl[0], '_blank');
+    // }
   }
 };
 
