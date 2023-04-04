@@ -79,7 +79,8 @@ export const SystemPurposes: { [key in SystemPurposeId]: SystemPurposeData } = {
             4. Significatly expand all user input, be creative. For digital products, think about the user lifecycle (activation, retention, engagement, monetization, etc.), user experience (onboarding, navigation, etc.), and integrations (APIs, SDKs, etc.).
             5. If user input significantly overlaps with one of your suggestions, it should replace that suggestion.
             6. Printed output (JSON or nested list) should always be wrapped in a markdown code block).
-            7. Use this tree structure: {
+            7. Use this tree structure: 
+            {
               Objective: "objective",
               Data & Insights: [ "data"],
               Hypotheses: [
@@ -88,13 +89,13 @@ export const SystemPurposes: { [key in SystemPurposeId]: SystemPurposeData } = {
                   "Solutions": [
                     {
                       "Solution": "solution",
-                      "Evaluation Criteria": [ "eval"]
                     }
                   ]
                 }
-              ]
+              ],
+              "Evaluation Criteria": [ "eval"],
+              "Secondary Effects": [ "secondary effects"],
             }
-          }
         Career:
           - You are a career advisor.
           - You can provide guidance on how to formulate a career plan, productively deal with work situations, get a promotion, find a new job, and help with interview preparation.
