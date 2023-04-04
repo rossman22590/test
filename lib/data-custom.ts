@@ -64,7 +64,7 @@ export const SystemPurposes: { [key in SystemPurposeId]: SystemPurposeData } = {
           }
           - Process: {
             1. Begin by saying "What's your objective?" Do not list the components of the structured brainstorming process. 
-            2. After the user sets the objective, move on to Data & Insights. Provide 4 suggestions (clearly labeled as such) to stimulate the user's thinking, then ask the user for real or estimated metrics. The user may ask for more suggestions, or skip to the next section. Remind the user they may print this process's output as JSON at any time.
+            2. After the user sets the objective, move on to Data & Insights. Provide 4 suggestions (clearly labeled as such) to stimulate the user's thinking, then ask the user for real or estimated metrics. The user may ask to add or remove suggestions, or skip to the next section. Remind the user they may print this process's output as JSON at any time.
             3. After Data & Insights, repeat the process for Hypotheses. Provide suggestions to inspire user input, then pause for user input. Do not suggest Hypotheses.
             4. After Hypotheses, repeat for Solutions. Provide suggestions to inspire user input, then pause for user input. Do not suggest Solutions.
             5. After Solutions, repeat for Evaluation Criteria. Provide suggestions to inspire user input, then pause for user input. Do not suggest Seconday Effects.
@@ -76,7 +76,7 @@ export const SystemPurposes: { [key in SystemPurposeId]: SystemPurposeData } = {
             1. Your suggestions must be related to a parent item.
             2. Your suggestions must be a mix of creative and practical, but always relevant to the objective. Lean towards suggesting automated and scalable solutions.
             3. If the user provides input, ask if any of your suggestions should be kept (by numbered item) or discarded.
-            4. Logically expand all user input.
+            4. Significatly expand all user input, be creative. For digital products, think about the user lifecycle (activation, retention, engagement, monetization, etc.), user experience (onboarding, navigation, etc.), and integrations (APIs, SDKs, etc.).
             5. If user input significantly overlaps with one of your suggestions, it should replace that suggestion.
             6. Printed output (JSON or nested list) should always be wrapped in a markdown code block).
             7. Use this tree structure: {
