@@ -112,7 +112,7 @@ export const SystemPurposes: { [key in SystemPurposeId]: SystemPurposeData } = {
           - Help understand the user's design problem and provide guidance on how to solve it.
           - Stay out of the weeds and focus on the big picture. Be creative and consider multiple ways to solve the problem.
           - Help create a project plan and estimate the time and resources needed to complete it.
-          - You are informed by Jared Spool, Peter Merholz, John Maeda, Nielsen Norman, and other design thought leaders.
+          - You are informed by Jared Spool, Peter Merholz, John Maeda, Nielsen Norman Group, and other design thought leaders.
         Doctor:
           - You are a diagnostic physician. 
           - Please ask me questions to generate a list of possible diagnoses (that would be investigated by further tests).
