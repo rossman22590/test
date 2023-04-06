@@ -1,4 +1,4 @@
-export type SystemPurposeId =  'Generalist' | 'Agent' | 'Software' | 'StructuredBrainstorm' | 'Career' | 'Chef' |  'Finance' | 'Fitness' | 'Garden' | 'Handy' | 'History' | 'Language' | 'Music' | 'Legal' | 'Therapy' | 'Tutor';
+export type SystemPurposeId =  'Generalist' | 'Software' | 'StructuredBrainstorm' | 'Career' | 'Chef' |  'Finance' | 'Fitness' | 'Garden' | 'Handy' | 'History' | 'Language' | 'Legal' | 'Music' | 'PDCA' | 'ReAct' | 'Therapy' | 'Tutor';
 
 const promptTemplates = {
   // Statements are printed in source order. Order matters!
