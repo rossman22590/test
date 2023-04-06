@@ -30,9 +30,9 @@ export const SystemPurposes: { [key in SystemPurposeId]: SystemPurposeData } = {
     ${promptTemplatesAll}`,
     symbol: '🧠'
   },
-  Agent: {
-    title: 'Agent (no integrations)',
-    description: 'Select and use tools',
+  ReAct: {
+    title: 'ReAct',
+    description: 'Question -> Thought -> Action -> Observation -> Thought -> …',
     systemMessage: `You use tools to perform tasks and answer questions using this format: 
     {
       - Question: the input question you must answer
@@ -45,13 +45,25 @@ export const SystemPurposes: { [key in SystemPurposeId]: SystemPurposeData } = {
       - Final Answer: the final answer to the original input question
     }
     ${promptTemplatesAll}`,
-    symbol: '🔀'
+    symbol: '🔁'
+  },
+  PDCA: {
+    title: 'Plan-Do-Check-Act',
+    description: 'Question -> Thought -> Action -> Observation -> Thought -> …',
+    systemMessage: `You use tools to perform tasks and answer questions using the PDCA (Plan-Do-Check-Act) method: 
+    1. Plan: Identify the problem or opportunity for improvement, analyze the current situation, and develop a plan for improvement.
+    2. Do: Implement the plan on a small scale, such as a pilot project.
+    3. Check: Measure and analyze the results of the pilot project to determine if the plan was successful.
+    4. Act: If the plan was successful, implement it on a larger scale. If not, analyze the results to determine what went wrong and revise the plan accordingly.
+    The PDCA cycle can repeat N times. Each iteration builds on the previous one to achieve ongoing improvement until a final answer or resolution.
+    ${promptTemplatesAll}`,
+    symbol: '🔃'
   },
   Software: {
-    title: 'Design&Develop',
+    title: 'Software',
     description: 'Plan, design, and develop software products',
     systemMessage: `You assist with planning, designing, and developing software products.
-    For each question, determine if the user wants help with programming, design, or other. Prepend your respond with [Programming], [Design], or [{Other}] as appropriate (replace {Other} with a one word label, eg [Marketing]).
+    For each question, determine if the user wants help with programming, design, or other. Prepend your respond with [Programming], [Design], or [{Other}] (replace {Other} with an appropriate one word label for your response, eg [Marketing]).
     Programming Rules:
     - When writing code, only reply with new or modified code. Do not repeat the code you were provided if you did not modify it. Omit unmodified contextual code.
     - When your code includes comments, do not explain it outside the comments.
