@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { shallow } from 'zustand/shallow';
 
-import { Box, Button, FormControl, FormHelperText, FormLabel, IconButton, Input, Modal, ModalClose, ModalDialog, Radio, RadioGroup, Slider, Stack, Switch, Typography } from '@mui/joy';
+import { Box, Button, FormControl, FormHelperText, FormLabel, IconButton, Input, Modal, ModalClose, ModalDialog, ModalOverflow, Radio, RadioGroup, Slider, Stack, Switch, Typography } from '@mui/joy';
 import KeyIcon from '@mui/icons-material/Key';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
@@ -16,7 +16,7 @@ export const isValidOpenAIApiKey = (apiKey?: string) =>
   !!apiKey && apiKey.startsWith('sk-') && apiKey.length > 40;
 
 
-function Section(props: { title?: string; collapsible?: boolean, collapsed?: boolean, disclaimer?: string, children: React.ReactNode }) {
+export function Section(props: { title?: string; collapsible?: boolean, collapsed?: boolean, disclaimer?: string, children: React.ReactNode }) {
   const [collapsed, setCollapsed] = React.useState(props.collapsed ?? false);
 
   return <>
@@ -56,24 +56,25 @@ function Section(props: { title?: string; collapsible?: boolean, collapsed?: boo
  */
 export function SettingsModal({ open, onClose }: { open: boolean, onClose: () => void; }) {
   // external state
-  const { centerMode, setCenterMode, renderMarkdown, setRenderMarkdown, apiKey, setApiKey, modelTemperature, setModelTemperature, modelMaxResponseTokens, setModelMaxResponseTokens, modelApiHost, setModelApiHost } = useSettingsStore(state => ({
+  const { centerMode, setCenterMode, renderMarkdown, setRenderMarkdown, zenMode, setZenMode, apiKey, setApiKey, modelTemperature, setModelTemperature, modelMaxResponseTokens, setModelMaxResponseTokens, modelApiHost, setModelApiHost } = useSettingsStore(state => ({
     centerMode: state.centerMode, setCenterMode: state.setCenterMode,
     renderMarkdown: state.renderMarkdown, setRenderMarkdown: state.setRenderMarkdown,
+    zenMode: state.zenMode, setZenMode: state.setZenMode,
     apiKey: state.apiKey, setApiKey: state.setApiKey,
     modelTemperature: state.modelTemperature, setModelTemperature: state.setModelTemperature,
     modelMaxResponseTokens: state.modelMaxResponseTokens, setModelMaxResponseTokens: state.setModelMaxResponseTokens,
     modelApiHost: state.modelApiHost, setModelApiHost: state.setModelApiHost,
   }), shallow);
 
-  const handleApiKeyChange = (e: React.ChangeEvent) =>
-    setApiKey((e.target as HTMLInputElement).value);
+  const handleApiKeyChange = (e: React.ChangeEvent) => setApiKey((e.target as HTMLInputElement).value);
 
-  const handleApiKeyDown = (e: React.KeyboardEvent) =>
-    (e.key === 'Enter') && onClose();
+  const handleApiKeyDown = (e: React.KeyboardEvent) => (e.key === 'Enter') && onClose();
+
+  const handleCenterModeChange = (event: React.ChangeEvent<HTMLInputElement>) => setCenterMode(event.target.value as 'narrow' | 'wide' | 'full' || 'wide');
 
   const handleRenderMarkdownChange = (event: React.ChangeEvent<HTMLInputElement>) => setRenderMarkdown(event.target.checked);
 
-  const handleCenterModeChange = (event: React.ChangeEvent<HTMLInputElement>) => setCenterMode(event.target.value as 'narrow' | 'wide' | 'full' || 'wide');
+  const handleZenModeChange = (event: React.ChangeEvent<HTMLInputElement>) => setZenMode(event.target.value as 'clean' | 'cleaner');
 
   const handleTemperatureChange = (event: Event, newValue: number | number[]) => setModelTemperature(newValue as number);
 
@@ -88,7 +89,7 @@ export function SettingsModal({ open, onClose }: { open: boolean, onClose: () =>
 
   return (
     <Modal open={open} onClose={onClose}>
-      <ModalDialog sx={{ maxWidth: 500, display: 'flex' }}>
+      <ModalOverflow><ModalDialog sx={{ maxWidth: 500, display: 'flex', p: { xs: 1, sm: 2, lg: '20px' } }}>
         <ModalClose />
 
         <Typography level='h5' sx={{ mb: 2 }}>Settings</Typography>
@@ -131,6 +132,18 @@ export function SettingsModal({ open, onClose }: { open: boolean, onClose: () =>
               </RadioGroup>
             </FormControl>
 
+            <FormControl orientation='horizontal' sx={{ alignItems: 'center', justifyContent: 'space-between' }}>
+              <Box>
+                <FormLabel>Visual Clutter</FormLabel>
+                <FormHelperText>{zenMode === 'clean' ? 'Show senders' : 'Hide sender and menus'}</FormHelperText>
+              </Box>
+              <RadioGroup orientation='horizontal' value={zenMode} onChange={handleZenModeChange}>
+                {/*<Radio value='clean' label={<Face6Icon sx={{ width: 24, height: 24, mt: -0.25 }} />} />*/}
+                <Radio value='clean' label='Clean' />
+                <Radio value='cleaner' label='Empty' />
+              </RadioGroup>
+            </FormControl>
+
             <FormControl orientation='horizontal' sx={{ justifyContent: 'space-between' }}>
               <Box>
                 <FormLabel>Markdown</FormLabel>
@@ -170,8 +183,8 @@ export function SettingsModal({ open, onClose }: { open: boolean, onClose: () =>
                 <FormHelperText>Response size</FormHelperText>
               </Box>
               <Slider
-                aria-label='Model Temperature' color='neutral'
-                min={512} max={8192} step={512} defaultValue={2048}
+                aria-label='Model Max Tokens' color='neutral'
+                min={256} max={4096} step={256} defaultValue={1024}
                 value={modelMaxResponseTokens} onChange={handleMaxTokensChange}
                 valueLabelDisplay='auto'
                 sx={{ py: 1, mt: 1.1 }}
@@ -206,7 +219,7 @@ export function SettingsModal({ open, onClose }: { open: boolean, onClose: () =>
           </Button>
         </Box>
 
-      </ModalDialog>
+      </ModalDialog></ModalOverflow>
     </Modal>
   );
 }
