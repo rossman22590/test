@@ -3,7 +3,7 @@ import * as React from 'react';
 import { Box, Stack, useTheme } from '@mui/joy';
 import { SxProps } from '@mui/joy/styles/types';
 
-import { ApiChatInput } from '../pages/api/chat';
+import { ApiChatInput } from '../pages/api/openai/stream-chat';
 import { ApiPublishResponse } from '../pages/api/publish';
 import { ApplicationBar } from '@/components/ApplicationBar';
 import { ChatMessageList } from '@/components/ChatMessageList';
@@ -36,7 +36,7 @@ function createDMessage(role: DMessage['role'], text: string): DMessage {
  */
 async function _streamAssistantResponseMessage(
   conversationId: string, history: DMessage[],
-  apiKey: string | undefined, apiHost: string | undefined,
+  apiKey: string | undefined, apiHost: string | undefined, apiOrgId: string | undefined,
   chatModelId: string, modelTemperature: number, modelMaxResponseTokens: number, abortSignal: AbortSignal,
   addMessage: (conversationId: string, message: DMessage) => void,
   editMessage: (conversationId: string, messageId: string, updatedMessage: Partial<DMessage>, touch: boolean) => void,
@@ -50,8 +50,9 @@ async function _streamAssistantResponseMessage(
   const messageId = assistantMessage.id;
 
   const payload: ApiChatInput = {
-    ...(apiKey ? { apiKey } : {}),
-    ...(apiHost ? { apiHost } : {}),
+    ...(apiKey && { apiKey }),
+    ...(apiHost && { apiHost }),
+    ...(apiOrgId && { apiOrgId }),
     model: chatModelId,
     messages: history.map(({ role, text }) => ({
       role: role,
@@ -63,7 +64,7 @@ async function _streamAssistantResponseMessage(
 
   try {
 
-    const response = await fetch('/api/chat', {
+    const response = await fetch('/api/openai/stream-chat', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(payload),
@@ -139,7 +140,7 @@ export function Chat(props: { onShowSettings: () => void, sx?: SxProps }) {
 
       if (!systemMessage.updated) {
         systemMessage.purposeId = systemPurposeId;
-        systemMessage.text = SystemPurposes[systemPurposeId].systemMessage
+        systemMessage.text = SystemPurposes[systemPurposeId]?.systemMessage
           .replaceAll('{{Today}}', new Date().toISOString().split('T')[0]);
       }
 
@@ -153,9 +154,9 @@ export function Chat(props: { onShowSettings: () => void, sx?: SxProps }) {
     const controller = new AbortController();
     setAbortController(controller);
 
-    const { apiKey, modelTemperature, modelMaxResponseTokens, modelApiHost } = useSettingsStore.getState();
+    const { apiKey, apiHost, apiOrganizationId, modelTemperature, modelMaxResponseTokens } = useSettingsStore.getState();
     const { appendMessage, editMessage } = useChatStore.getState();
-    await _streamAssistantResponseMessage(conversationId, history, apiKey, modelApiHost, chatModelId, modelTemperature, modelMaxResponseTokens, controller.signal, appendMessage, editMessage);
+    await _streamAssistantResponseMessage(conversationId, history, apiKey, apiHost, apiOrganizationId, chatModelId, modelTemperature, modelMaxResponseTokens, controller.signal, appendMessage, editMessage);
 
     // clear to send, again
     setAbortController(null);
