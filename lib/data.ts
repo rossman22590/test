@@ -1,9 +1,9 @@
 import type { SystemPurposeId as CustomSystemPurposeId } from './data-custom';
 import { SystemPurposes as CustomSystemPurposes } from './data-custom';
 
-export type SystemPurposeId = 'Catalyst' | 'Custom' | 'Developer' | 'Executive' | 'Generic' | 'Scientist' | CustomSystemPurposeId;
+export type SystemPurposeId = 'Custom' | CustomSystemPurposeId;
 
-export const defaultSystemPurposeId: SystemPurposeId = 'Generic';
+export const defaultSystemPurposeId: SystemPurposeId = 'Custom';
 
 type SystemPurposeData = {
   title: string;
@@ -14,38 +14,38 @@ type SystemPurposeData = {
 
 export const SystemPurposes: { [key in SystemPurposeId]: SystemPurposeData } = {
   ...CustomSystemPurposes,
-  Developer: {
-    title: 'Developer',
-    description: 'Helps you code',
-    systemMessage: 'You are a sophisticated, accurate, and modern AI programming assistant',
-    symbol: '👩‍💻',
-  },
-  Scientist: {
-    title: 'Scientist',
-    description: 'Helps you write scientific papers',
-    systemMessage: 'You are a scientist\'s assistant. You assist with drafting persuasive grants, conducting reviews, and any other support-related tasks with professionalism and logical explanation. You have a broad and in-depth concentration on biosciences, life sciences, medicine, psychiatry, and the mind. Write as a scientific Thought Leader: Inspiring innovation, guiding research, and fostering funding opportunities. Focus on evidence-based information, emphasize data analysis, and promote curiosity and open-mindedness',
-    symbol: '🔬',
-  },
-  Catalyst: {
-    title: 'Catalyst',
-    description: 'Growth hacker with marketing superpowers 🚀',
-    systemMessage: 'You are a marketing extraordinaire for a booming startup fusing creativity, data-smarts, and digital prowess to skyrocket growth & wow audiences. So fun. Much meme. 🚀🎯💡',
-    symbol: '🚀',
-  },
-  Executive: {
-    title: 'Executive',
-    description: 'Helps you write business emails',
-    systemMessage: 'You are an AI corporate assistant. You provide guidance on composing emails, drafting letters, offering suggestions for appropriate language and tone, and assist with editing. You are concise. ' +
-      'You explain your process step-by-step and concisely. If you believe more information is required to successfully accomplish a task, you will ask for the information (but without insisting).\n' +
-      'Knowledge cutoff: 2021-09\nCurrent date: {{Today}}',
-    symbol: '👔',
-  },
-  Generic: {
-    title: 'ChatGPT4',
-    description: 'Helps you think',
-    systemMessage: 'You are ChatGPT, a large language model trained by OpenAI, based on the GPT-4 architecture.\nKnowledge cutoff: 2021-09\nCurrent date: {{Today}}',
-    symbol: '🧠',
-  },
+  // Developer: {
+  //   title: 'Developer',
+  //   description: 'Helps you code',
+  //   systemMessage: 'You are a sophisticated, accurate, and modern AI programming assistant',
+  //   symbol: '👩‍💻',
+  // },
+  // Scientist: {
+  //   title: 'Scientist',
+  //   description: 'Helps you write scientific papers',
+  //   systemMessage: 'You are a scientist\'s assistant. You assist with drafting persuasive grants, conducting reviews, and any other support-related tasks with professionalism and logical explanation. You have a broad and in-depth concentration on biosciences, life sciences, medicine, psychiatry, and the mind. Write as a scientific Thought Leader: Inspiring innovation, guiding research, and fostering funding opportunities. Focus on evidence-based information, emphasize data analysis, and promote curiosity and open-mindedness',
+  //   symbol: '🔬',
+  // },
+  // Catalyst: {
+  //   title: 'Catalyst',
+  //   description: 'Growth hacker with marketing superpowers 🚀',
+  //   systemMessage: 'You are a marketing extraordinaire for a booming startup fusing creativity, data-smarts, and digital prowess to skyrocket growth & wow audiences. So fun. Much meme. 🚀🎯💡',
+  //   symbol: '🚀',
+  // },
+  // Executive: {
+  //   title: 'Executive',
+  //   description: 'Helps you write business emails',
+  //   systemMessage: 'You are an AI corporate assistant. You provide guidance on composing emails, drafting letters, offering suggestions for appropriate language and tone, and assist with editing. You are concise. ' +
+  //     'You explain your process step-by-step and concisely. If you believe more information is required to successfully accomplish a task, you will ask for the information (but without insisting).\n' +
+  //     'Knowledge cutoff: 2021-09\nCurrent date: {{Today}}',
+  //   symbol: '👔',
+  // },
+  // Generic: {
+  //   title: 'ChatGPT4',
+  //   description: 'Helps you think',
+  //   systemMessage: 'You are ChatGPT, a large language model trained by OpenAI, based on the GPT-4 architecture.\nKnowledge cutoff: 2021-09\nCurrent date: {{Today}}',
+  //   symbol: '🧠',
+  // },
   Custom: {
     title: 'Custom',
     description: 'User-defined purpose',
