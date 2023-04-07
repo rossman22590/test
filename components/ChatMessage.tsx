@@ -68,33 +68,10 @@ const inferCodeLanguage = (markdownLanguage: string, code: string): string | nul
   return null;
 };
 
-const detectPurpose = (text: string, disableSend: boolean, messageTyping: boolean) => {
-  const purposes = [ 'GPT', 'Programmer', 'Career', 'Chef', 'Designer', 'Doctor', 'Handy', 'Language Tutor', 'Map', 'Therapist', 'Tutor', 'Fitness Coach', 'Financial Advisor', 'Historian', 'Gardener', 'Musician', 'Legal Advisor' ];
-  const purposesRegex = new RegExp(`\\[(${purposes.join('|')})\\]`, 'g');
-  let matchPurpose;
-
-  // const googleMapsUrlRegex = /https:\/\/www\.google\.com\/maps\/[^ ]+/g;
-  // let matchGoogleMapsUrl;
-
-  if (!messageTyping && !disableSend) {
-    const uniquePurposes = new Set();
-    while ((matchPurpose = purposesRegex.exec(text)) !== null) {
-      uniquePurposes.add(matchPurpose[0]);
-    }
-    uniquePurposes.forEach(matchPurpose => {
-      console.log(`Response matched purpose: ${matchPurpose}`);
-    });
-
-    // while ((matchGoogleMapsUrl = googleMapsUrlRegex.exec(text)) !== null) {
-    //   window.open(matchGoogleMapsUrl[0], '_blank');
-    // }
-  }
-};
-
 /**
  * FIXME: expensive function, especially as it's not been used in incremental fashion
  */
-const parseBlocks = (forceText: boolean, text: string, disableSend: boolean, messageTyping: boolean): Block[] => {
+const parseBlocks = (forceText: boolean, text: string): Block[] => {
   if (forceText)
     return [{ type: 'text', content: text }];
 
@@ -103,8 +80,6 @@ const parseBlocks = (forceText: boolean, text: string, disableSend: boolean, mes
 
   let lastIndex = 0;
   let match;
-
-  detectPurpose(text, disableSend, messageTyping);
 
   while ((match = codeBlockRegex.exec(text)) !== null) {
     const markdownLanguage = (match[1] || '').trim();
@@ -453,7 +428,7 @@ export function ChatMessage(props: { message: DMessage, disableSend: boolean, on
             <Typography level='body2' color='warning' sx={{ mt: 1, mx: 1.5 }}>modified by user - auto-update disabled</Typography>
           )}
 
-          {!errorMessage && parseBlocks(fromSystem, collapsedText, props.disableSend, messageTyping).map((block, index) =>
+          {!errorMessage && parseBlocks(fromSystem, collapsedText).map((block, index) =>
             block.type === 'code'
               ? <RenderCode key={'code-' + index} codeBlock={block} sx={cssCode} />
               : renderMarkdown
