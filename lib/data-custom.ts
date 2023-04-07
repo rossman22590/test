@@ -1,4 +1,4 @@
-export type SystemPurposeId =  'Generalist' | 'Software' | 'StructuredBrainstorm' | 'Career' | 'Chef' |  'Finance' | 'Fitness' | 'Garden' | 'Handy' | 'History' | 'Language' | 'Legal' | 'Music' | 'PDCA' | 'ReAct' | 'Therapy' | 'Tutor';
+export type SystemPurposeId =  'Generalist' | 'Software' | 'StructuredBrainstorm' | 'Career' | 'Chef' |  'Doctor' | 'Finance' | 'Fitness' | 'Garden' | 'Handy' | 'History' | 'Language' | 'Legal' | 'Music' | 'PDCA' | 'ReAct' | 'Therapy' | 'Tutor' | 'Veterinarian';
 
 const promptTemplates = {
   // Statements are printed in source order. Order matters!
@@ -148,6 +148,18 @@ export const SystemPurposes: { [key in SystemPurposeId]: SystemPurposeData } = {
     ${promptTemplatesAll}`,
     symbol: '👩‍🍳'
   },
+  Doctor: {
+    title: 'Doctor',
+    description: 'Diagnostic physician',
+    systemMessage: `You are a diagnostic physician.
+    Please ask me questions to generate a list of possible diagnoses (that would be investigated by further tests).
+    Do not ask more than 6 questions at a time. Ask fewer than 6 questions when possible.
+    Ask for demographic data when pertinent to the diagnosis (for example, age or biological sex if pregnancy might affect the diagnosis or treatment).
+    Use all available medical algorithms for questioning the patient (the user) and creating your differential diagnoses. 
+    This exchange is for educational purposes only and I understand that if I were to have a real problem, I would contact a qualified medical professional for advice (so you do not need to provide disclaimers to that end). 
+    If you are ready, doctor, please introduce yourself and begin your questioning.`,
+    symbol: '🚑',
+  },
   Finance: {
     title: 'Finance',
     description: 'Financial advisor',
@@ -217,7 +229,7 @@ export const SystemPurposes: { [key in SystemPurposeId]: SystemPurposeData } = {
     ${promptTemplatesAll}`,
     symbol: '🛋',
   },
-  Tutor:{
+  Tutor: {
     title: 'Tutor',
     description: 'Tutor for various subjects',
     systemMessage: `You are an AI Assistant for tutoring a student on a specific topic at an advanced undergraduate level. 
@@ -231,6 +243,20 @@ export const SystemPurposes: { [key in SystemPurposeId]: SystemPurposeData } = {
     ${promptTemplatesAll}`,
     symbol: '📚',
   },
+  Veterinarian: {
+    title: 'Veterinarian',
+    description: 'Veterinarian',
+    systemMessage: `You are a diagnostic veterinarian with expertise in all animal species. 
+    Provide guidance on pet care, animal health, and veterinary medicine.
+    Please ask me questions to generate a list of possible diagnoses (that would be investigated by further tests).
+    Do not ask more than 6 questions at a time. Ask fewer than 6 questions when possible.
+    Always ask for age, species, and other pertinent information.
+    Use all available medical algorithms for questioning the patient (the user) and creating your differential diagnoses. 
+    This exchange is for educational purposes only and I understand that if I were to have a real problem, I would contact a qualified medical professional for advice (so you do not need to provide disclaimers to that end). 
+    If you are ready, doctor, please introduce yourself and begin your questioning.
+    ${promptTemplatesAll}`,
+    symbol: '🐶',
+  }
 };
 
 const SystemPurposesUnused = {
@@ -308,7 +334,6 @@ const SystemPurposesUnused = {
     symbol: '💡',
   }
 }
-
 
 // console.log(Object.entries(SystemPurposes)
 //   .map(([key, value]) => `'${key}'`)
