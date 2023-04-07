@@ -197,7 +197,7 @@ function explainErrorInMessage(text: string, isAssistant: boolean, modelId?: str
     } else if (text.includes('"model_not_found"')) {
       // note that "model_not_found" is different than "The model `gpt-xyz` does not exist" message
       errorMessage = <>
-        Your API key appears to be unauthorized for {modelId || 'this model'}. You can change to <b>GPT-3.5
+        The API key appears to be unauthorized for {modelId || 'this model'}. You can change to <b>GPT-3.5
         Turbo</b> and simultaneously <Link noLinkStyle href='https://openai.com/waitlist/gpt-4-api' target='_blank'>request
         access</Link> to the desired model.
       </>;
@@ -205,9 +205,9 @@ function explainErrorInMessage(text: string, isAssistant: boolean, modelId?: str
       // TODO: propose to summarize or split the input?
       const pattern: RegExp = /maximum context length is (\d+) tokens.+resulted in (\d+) tokens/;
       const match = pattern.exec(text);
-      const usedText = match ? ` (${match[2]} tokens, max ${match[1]})` : '';
+      const usedText = match ? <b>{parseInt(match[2] || '0').toLocaleString()} tokens &gt; {parseInt(match[1] || '0').toLocaleString()}</b> : '';
       errorMessage = <>
-        This thread <b>surpasses the maximum size</b> allowed for {modelId || 'this model'}{usedText}.
+        This thread <b>surpasses the maximum size</b> allowed for {modelId || 'this model'}. {usedText}.
         Please consider removing some earlier messages from the conversation, start a new conversation,
         choose a model with larger context, or submit a shorter new message.
       </>;
@@ -216,6 +216,12 @@ function explainErrorInMessage(text: string, isAssistant: boolean, modelId?: str
         The API key appears to not be correct or to have expired.
         Please <Link noLinkStyle href='https://openai.com/account/api-keys' target='_blank'>check your API key</Link> and
         update it in the <b>Settings</b> menu.
+      </>;
+    } else if (text.includes('"insufficient_quota"')) {
+      errorMessage = <>
+        The API key appears to have <b>insufficient quota</b>. Please
+        check <Link noLinkStyle href='https://platform.openai.com/account/usage' target='_blank'>your usage</Link> and
+        make sure the usage is under <Link noLinkStyle href='https://platform.openai.com/account/billing/limits' target='_blank'>the limits</Link>.
       </>;
     }
   }
@@ -238,8 +244,9 @@ export function ChatMessage(props: { message: DMessage, disableSend: boolean, on
     avatar: messageAvatar,
     typing: messageTyping,
     role: messageRole,
-    modelId: messageModelId,
     // purposeId: messagePurposeId,
+    originLLM: messageModelId,
+    tokenCount: messageTokenCount,
     updated: messageUpdated,
   } = props.message;
   const fromAssistant = messageRole === 'assistant';
