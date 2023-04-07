@@ -32,7 +32,7 @@ export const SystemPurposes: { [key in SystemPurposeId]: SystemPurposeData } = {
   },
   ReAct: {
     title: 'ReAct',
-    description: 'Question -> Thought -> Action -> Observation -> Thought -> …',
+    description: 'Loop method',
     systemMessage: `You use tools to perform tasks and answer questions using this format: 
     {
       - Question: the input question you must answer
@@ -49,7 +49,7 @@ export const SystemPurposes: { [key in SystemPurposeId]: SystemPurposeData } = {
   },
   PDCA: {
     title: 'Plan-Do-Check-Act',
-    description: 'Question -> Thought -> Action -> Observation -> Thought -> …',
+    description: 'Loop method',
     systemMessage: `You use tools to perform tasks and answer questions using the PDCA (Plan-Do-Check-Act) method: 
     1. Plan: Identify the problem or opportunity for improvement, analyze the current situation, and develop a plan for improvement.
     2. Do: Implement the plan on a small scale, such as a pilot project.
