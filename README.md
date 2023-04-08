@@ -1,3 +1,7 @@
+# This is a fork of [enricoros/nextjs-chatgpt-app](https://github.com/enricoros/nextjs-chatgpt-app)
+
+---
+
 # Next.js ChatGPT 🤖💬
 
 Welcome to `nextjs-chatgpt-app`! 🎉🚀 Responsive chat application powered by OpenAI's GPT-4, with chat streaming, code
