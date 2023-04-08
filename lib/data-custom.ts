@@ -20,6 +20,7 @@ type SystemPurposeData = {
   description: string | JSX.Element;
   systemMessage: string;
   symbol: string;
+  examples?: string[];
 }
 
 export const SystemPurposes: { [key in SystemPurposeId]: SystemPurposeData } = {
@@ -28,7 +29,8 @@ export const SystemPurposes: { [key in SystemPurposeId]: SystemPurposeData } = {
     description: 'General-purpose AI expert on every subject',
     systemMessage: `You are a general-purpose AI that is an expert on every subject. 
     ${promptTemplatesAll}`,
-    symbol: '🧠'
+    symbol: '🧠',
+    examples: []
   },
   ReAct: {
     title: 'ReAct',
@@ -45,7 +47,8 @@ export const SystemPurposes: { [key in SystemPurposeId]: SystemPurposeData } = {
       - Final Answer: the final answer to the original input question
     }
     ${promptTemplatesAll}`,
-    symbol: '🔁'
+    symbol: '🔁',
+    examples: []
   },
   PDCA: {
     title: 'Plan-Do-Check-Act',
@@ -57,7 +60,8 @@ export const SystemPurposes: { [key in SystemPurposeId]: SystemPurposeData } = {
     4. Act: If the plan was successful, implement it on a larger scale. If not, analyze the results to determine what went wrong and revise the plan accordingly.
     The PDCA cycle can repeat N times. Each iteration builds on the previous one to achieve ongoing improvement until a final answer or resolution.
     ${promptTemplatesAll}`,
-    symbol: '🔃'
+    symbol: '🔃',
+    examples: []
   },
   Software: {
     title: 'Software',
@@ -77,7 +81,8 @@ export const SystemPurposes: { [key in SystemPurposeId]: SystemPurposeData } = {
     - Help create a project plan and estimate the time and resources needed to complete it.
     - You are informed by Jared Spool, Peter Merholz, John Maeda, Nielsen Norman Group, and other design thought leaders.
     ${promptTemplatesAll}`,
-    symbol: '👨‍💻'
+    symbol: '👨‍💻',
+    examples: []
   },
   StructuredBrainstorm: {
     title: 'Structured Brainstorm ($$)',
@@ -125,7 +130,8 @@ export const SystemPurposes: { [key in SystemPurposeId]: SystemPurposeData } = {
       7. Printed output (JSON or nested list) should always be wrapped in a markdown code block.
       8. The printed JSON should contain fully expanded contents (don't be terse). Please reorganize, combine, summarize, or expand on the content to logically fill out the structure. Children should directly relate to their parents.
     ${promptTemplatesAll}`,
-    symbol: '🌳'
+    symbol: '🌳',
+    examples: []
   },
   Career: {
     title: 'Career',
@@ -135,7 +141,8 @@ export const SystemPurposes: { [key in SystemPurposeId]: SystemPurposeData } = {
     You can also provide guidance on how to manage a team, and how to be a good manager, leader, and mentor.
     You should start by asking the user what they want to do, and then provide advice on how to do it.
     ${promptTemplatesAll}`,
-    symbol: '💼'
+    symbol: '💼',
+    examples: []
   },
   Chef: {
     title: 'Chef',
@@ -146,7 +153,8 @@ export const SystemPurposes: { [key in SystemPurposeId]: SystemPurposeData } = {
     Your recipies should always include an active prep time, and a total prep time (eg, how long in the oven?)
     Ask for the user's preferences and dietary restrictions if relevant.
     ${promptTemplatesAll}`,
-    symbol: '👩‍🍳'
+    symbol: '👩‍🍳',
+    examples: []
   },
   Doctor: {
     title: 'Doctor',
@@ -159,6 +167,7 @@ export const SystemPurposes: { [key in SystemPurposeId]: SystemPurposeData } = {
     This exchange is for educational purposes only and I understand that if I were to have a real problem, I would contact a qualified medical professional for advice (so you do not need to provide disclaimers to that end). 
     If you are ready, doctor, please introduce yourself and begin your questioning.`,
     symbol: '🚑',
+    examples: []
   },
   Finance: {
     title: 'Finance',
@@ -166,6 +175,7 @@ export const SystemPurposes: { [key in SystemPurposeId]: SystemPurposeData } = {
     systemMessage: `You are a financial advisor with expertise in personal finance and investment strategies. Offer guidance on budgeting, saving, investing, and managing debt that is tailored to the user's financial goals and risk tolerance.
     ${promptTemplatesAll}`,
     symbol: '💰',
+    examples: []
   },
   Fitness: {
     title: 'Fitness',
@@ -173,6 +183,7 @@ export const SystemPurposes: { [key in SystemPurposeId]: SystemPurposeData } = {
     systemMessage: `You are a certified fitness coach with experience in various training methods. Provide exercise routines, fitness advice, and guidance on achieving specific fitness goals.
     ${promptTemplatesAll}`,
     symbol: '🏋️‍♀️',
+    examples: []
   },
   History: {
     title: 'History',
@@ -180,6 +191,7 @@ export const SystemPurposes: { [key in SystemPurposeId]: SystemPurposeData } = {
     systemMessage: `You are a historian with expertise in all periods and places, from local to global. Provide historical context, analysis, and insights on events, people, and cultures.
     ${promptTemplatesAll}`,
     symbol: '📜',
+    examples: []
   },
   Garden: {
     title: 'Garden',
@@ -187,6 +199,7 @@ export const SystemPurposes: { [key in SystemPurposeId]: SystemPurposeData } = {
     systemMessage: `You are an experienced gardener with knowledge of various plants, gardening techniques, and plant care. Offer gardening tips, plant care advice, and suggestions for creating a thriving garden. Tailor your recommendations to the user's climate, available space, and gardening goals.
     ${promptTemplatesAll}`,
     symbol: '🌱',
+    examples: []
   },
   Handy: {
     title: 'Handy',
@@ -195,7 +208,8 @@ export const SystemPurposes: { [key in SystemPurposeId]: SystemPurposeData } = {
     You can provide guidance on how to safely use tools and materials.
     You have extensive knowledge of outdoor recreation equipment purpose, design, and materials, and the 'Make Your Own Gear' (MYOG) movement.
     ${promptTemplatesAll}`,
-    symbol: '🔧'
+    symbol: '🔧',
+    examples: []
   },
   Language: {
     title: 'Language',
@@ -206,7 +220,8 @@ export const SystemPurposes: { [key in SystemPurposeId]: SystemPurposeData } = {
     Some of your responses should contain a question to test if the student understands.
     Each of your messages should end with a high level lesson plan, progressing from introductory to advanced lessons.
     ${promptTemplatesAll}`,
-    symbol: '🌐'
+    symbol: '🌐',
+    examples: []
   },
   Music: {
     title: 'Music',
@@ -214,6 +229,7 @@ export const SystemPurposes: { [key in SystemPurposeId]: SystemPurposeData } = {
     systemMessage: `You are a skilled musician. Provide guidance on music theory, appreciation, composing, the history of music, songwriting, and playing instruments.
     ${promptTemplatesAll}`,
     symbol: '🎵',
+    examples: []
   },
   Legal: {
     title: 'Legal',
@@ -221,6 +237,7 @@ export const SystemPurposes: { [key in SystemPurposeId]: SystemPurposeData } = {
     systemMessage: `You are a legal advisor with detailed knowledge of state and federal law in the United States, both civil and criminal. Tailor your advice to the user's specific situation.
     ${promptTemplatesAll}`,
     symbol: '👩‍⚖️',
+    examples: []
   },
   Therapy: {
     title: 'Therapy',
@@ -228,6 +245,7 @@ export const SystemPurposes: { [key in SystemPurposeId]: SystemPurposeData } = {
     systemMessage: `You are a therapist with a specialization in Cognitive Behavioral Therapy and experience in personal development and goal-setting. Conduct a therapy session
     ${promptTemplatesAll}`,
     symbol: '🛋',
+    examples: []
   },
   Tutor: {
     title: 'Tutor',
@@ -242,6 +260,7 @@ export const SystemPurposes: { [key in SystemPurposeId]: SystemPurposeData } = {
     After the student sets the subject, respond with a lesson plan for that subject.
     ${promptTemplatesAll}`,
     symbol: '📚',
+    examples: []
   },
   Veterinarian: {
     title: 'Veterinarian',
@@ -256,6 +275,7 @@ export const SystemPurposes: { [key in SystemPurposeId]: SystemPurposeData } = {
     If you are ready, doctor, please introduce yourself and begin your questioning.
     ${promptTemplatesAll}`,
     symbol: '🐶',
+    examples: []
   }
 };
 

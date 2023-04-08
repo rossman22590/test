@@ -14,6 +14,7 @@ type SystemPurposeData = {
 }
 
 export const SystemPurposes: { [key in SystemPurposeId]: SystemPurposeData } = {
+  ...CustomSystemPurposes,
   // Developer: {
   //   title: 'Developer',
   //   description: 'Helps you code',
