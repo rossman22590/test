@@ -1,7 +1,9 @@
 # This is a fork of [enricoros/nextjs-chatgpt-app](https://github.com/enricoros/nextjs-chatgpt-app)
 
 ---
+
 Upstream readme below:
+
 ---
 
 # Next.js ChatGPT 🤖💬
