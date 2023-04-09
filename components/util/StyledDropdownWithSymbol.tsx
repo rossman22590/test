@@ -3,6 +3,9 @@ import * as React from 'react';
 import { StyledDropdown } from './StyledDropdown';
 import { SxProps } from '@mui/joy/styles/types';
 
+/**
+ * Wrapper around StyledDropdown that adds a symbol in front of the title
+ */
 type Props<TValue extends string> = {
   value: TValue;
   items: Record<string, { title: string, symbol: string }>;
