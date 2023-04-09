@@ -1,7 +1,7 @@
 import type { SystemPurposeId as CustomSystemPurposeId } from './data-custom';
 import { SystemPurposes as CustomSystemPurposes } from './data-custom';
 
-export type SystemPurposeId = 'Custom' | CustomSystemPurposeId;
+export type SystemPurposeId = 'Custom' | 'Developer' | CustomSystemPurposeId;
 
 export const defaultSystemPurposeId: SystemPurposeId = 'Custom';
 
@@ -15,13 +15,13 @@ type SystemPurposeData = {
 
 export const SystemPurposes: { [key in SystemPurposeId]: SystemPurposeData } = {
   ...CustomSystemPurposes,
-  // Developer: {
-  //   title: 'Developer',
-  //   description: 'Helps you code',
-  //   systemMessage: 'You are a sophisticated, accurate, and modern AI programming assistant', // skilled, detail-oriented
-  //   symbol: '👩‍💻',
-  //   examples: ['hello world in 10 languages', 'translate python to typescript', 'find and fix a bug in my code', 'add a mic feature to my NextJS app', 'automate tasks in React'],
-  // },
+  Developer: {
+    title: 'Developer',
+    description: 'Helps you code',
+    systemMessage: 'You are a sophisticated, accurate, and modern AI programming assistant', // skilled, detail-oriented
+    symbol: '👩‍💻',
+    examples: ['hello world in 10 languages', 'translate python to typescript', 'find and fix a bug in my code', 'add a mic feature to my NextJS app', 'automate tasks in React'],
+  },
   // Scientist: {
   //   title: 'Scientist',
   //   description: 'Helps you write scientific papers',
