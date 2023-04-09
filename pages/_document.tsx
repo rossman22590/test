@@ -17,8 +17,9 @@ export default function MyDocument({ emotionStyleTags }: MyDocumentProps) {
     <Html lang='en' className={bodyFontClassName}>
       <Head>
         {/* PWA primary color */}
-        <meta name='theme-color' content='#000000' />
+        <meta name='theme-color' content='#007aff' />
         <link rel='shortcut icon' href='/favicon.ico' />
+        <link rel='manifest' href='/manifest.json' />
         <meta name='emotion-insertion-point' content='' />
         {emotionStyleTags}
       </Head>
