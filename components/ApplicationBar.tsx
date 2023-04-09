@@ -16,6 +16,7 @@ import SwapVertIcon from '@mui/icons-material/SwapVert';
 import { ChatModelId, ChatModels, SystemPurposeId, SystemPurposes } from '@/lib/data';
 import { PagesMenu } from '@/components/Pages';
 import { StyledDropdown } from '@/components/util/StyledDropdown';
+import { StyledDropdownWithSymbol } from '@/components/util/StyledDropdownWithSymbol';
 import { useActiveConfiguration } from '@/lib/store-chats';
 import { useSettingsStore } from '@/lib/store-settings';
 
@@ -100,7 +101,7 @@ export function ApplicationBar({ onClearConversation, onDownloadConversationJSON
 
         <StyledDropdown items={ChatModels} value={chatModelId} onChange={handleChatModelChange} />
 
-        <StyledDropdown items={SystemPurposes} value={systemPurposeId} onChange={handleSystemPurposeChange} />
+        <StyledDropdownWithSymbol items={SystemPurposes} value={systemPurposeId} onChange={handleSystemPurposeChange} />
 
       </Stack>
 
