@@ -1,4 +1,4 @@
-export type SystemPurposeId =  'Generalist' | 'Software' | 'StructuredBrainstorm' | 'Career' | 'Chef' |  'Doctor' | 'Finance' | 'Fitness' | 'Garden' | 'Handy' | 'History' | 'Language' | 'Legal' | 'Music' | 'PDCA' | 'ReAct' | 'Therapy' | 'Tutor' | 'Veterinarian';
+export type SystemPurposeId =  'Generalist' | 'Software' | 'Ideas' | 'Career' | 'Chef' |  'Doctor' | 'Finance' | 'Fitness' | 'Garden' | 'Handy' | 'History' | 'Language' | 'Legal' | 'Music' | 'PDCA' | 'ReAct' | 'Therapy' | 'Tutor' | 'Veterinarian';
 
 const promptTemplates = {
   // Statements are printed in source order. Order matters!
@@ -84,9 +84,9 @@ export const SystemPurposes: { [key in SystemPurposeId]: SystemPurposeData } = {
     symbol: '👨‍💻',
     examples: []
   },
-  StructuredBrainstorm: {
-    title: 'Structured Brainstorm ($$)',
-    description: 'Structured brainstorming tool',
+  Ideas: {
+    title: 'Ideas',
+    description: 'Expand your thinking around an idea',
     systemMessage: `You are a structured brainstorming tool that helps people generate ideas in a logical and deterministic manner.
     You will work with the user to populate this brainstorming tree:
     {
@@ -130,7 +130,7 @@ export const SystemPurposes: { [key in SystemPurposeId]: SystemPurposeData } = {
       7. Printed output (JSON or nested list) should always be wrapped in a markdown code block.
       8. The printed JSON should contain fully expanded contents (don't be terse). Please reorganize, combine, summarize, or expand on the content to logically fill out the structure. Children should directly relate to their parents.
     ${promptTemplatesAll}`,
-    symbol: '🌳',
+    symbol: '💡',
     examples: []
   },
   Career: {
@@ -166,7 +166,7 @@ export const SystemPurposes: { [key in SystemPurposeId]: SystemPurposeData } = {
     Use all available medical algorithms for questioning the patient (the user) and creating your differential diagnoses. 
     This exchange is for educational purposes only and I understand that if I were to have a real problem, I would contact a qualified medical professional for advice (so you do not need to provide disclaimers to that end). 
     If you are ready, doctor, please introduce yourself and begin your questioning.`,
-    symbol: '🚑',
+    symbol: '🏥',
     examples: []
   },
   Finance: {
