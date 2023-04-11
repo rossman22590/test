@@ -16,7 +16,7 @@ export interface ChatStore {
   activeConversationId: string | null;
 
   // store setters
-  addConversation: (conversation: DConversation, activate: boolean) => void;
+  createConversation: () => void;
   deleteConversation: (conversationId: string) => void;
   setActiveConversationId: (conversationId: string) => void;
 
@@ -29,6 +29,8 @@ export interface ChatStore {
   editMessage: (conversationId: string, messageId: string, updatedMessage: Partial<DMessage>, touch: boolean) => void;
   setChatModelId: (conversationId: string, chatModelId: ChatModelId) => void;
   setSystemPurposeId: (conversationId: string, systemPurposeId: SystemPurposeId) => void;
+  setAutoTitle: (conversationId: string, autoTitle: string) => void;
+  setUserTitle: (conversationId: string, userTitle: string) => void;
 
   // utility function
   _editConversation: (conversationId: string, update: Partial<DConversation> | ((conversation: DConversation) => Partial<DConversation>)) => void;
@@ -43,7 +45,6 @@ export interface ChatStore {
  */
 export interface DConversation {
   id: string;
-  name: string;
   messages: DMessage[];
   systemPurposeId: SystemPurposeId;
   chatModelId: ChatModelId;
@@ -56,11 +57,19 @@ export interface DConversation {
   abortController: AbortController | null;
 }
 
-const createConversation = (id: string, name: string, systemPurposeId: SystemPurposeId, chatModelId: ChatModelId): DConversation =>
-  ({ id, name, messages: [], systemPurposeId, chatModelId, tokenCount: 0, created: Date.now(), updated: Date.now(), abortController: null });
+export const createDefaultConversation = (systemPurposeId?: SystemPurposeId, chatModelId?: ChatModelId): DConversation => ({
+  id: uuidv4(),
+  messages: [],
+  systemPurposeId: systemPurposeId || defaultSystemPurposeId,
+  chatModelId: chatModelId || defaultChatModelId,
+  tokenCount: 0,
+  created: Date.now(),
+  updated: Date.now(),
+  abortController: null,
+});
 
-export const createDefaultConversation = () =>
-  createConversation(uuidv4(), 'Conversation', defaultSystemPurposeId, defaultChatModelId);
+export const conversationTitle = (conversation: DConversation): string =>
+  conversation.userTitle || conversation.autoTitle || 'Conversation';
 
 
 /**
@@ -114,16 +123,19 @@ export const useChatStore = create<ChatStore>()(devtools(
       activeConversationId: defaultConversations[0].id,
 
 
-      addConversation: (conversation: DConversation, activate: boolean) =>
-        set(state => (
-          {
+      createConversation: () =>
+        set(state => {
+          // inherit some values from the active conversation (matches users' expectations)
+          const activeConversation = state.conversations.find((conversation: DConversation): boolean => conversation.id === state.activeConversationId);
+          const conversation = createDefaultConversation(activeConversation?.systemPurposeId, activeConversation?.chatModelId);
+          return {
             conversations: [
               conversation,
               ...state.conversations.slice(0, MAX_CONVERSATIONS - 1),
             ],
-            ...(activate ? { activeConversationId: conversation.id } : {}),
-          }
-        )),
+            activeConversationId: conversation.id,
+          };
+        }),
 
       deleteConversation: (conversationId: string) =>
         set(state => {
@@ -174,7 +186,7 @@ export const useChatStore = create<ChatStore>()(devtools(
           conversation.abortController?.abort();
           return {
             messages: newMessages,
-            tokenCount: newMessages.reduce((sum, message) => sum + updateTokenCount(message, conversation.chatModelId, false, 'setMessages'), 0),
+            tokenCount: newMessages.reduce((sum, message) => sum + 4 + updateTokenCount(message, conversation.chatModelId, false, 'setMessages'), 3),
             updated: Date.now(),
             abortController: null,
           };
@@ -190,7 +202,7 @@ export const useChatStore = create<ChatStore>()(devtools(
 
           return {
             messages,
-            tokenCount: messages.reduce((sum, message) => sum + message.tokenCount || 0, 0),
+            tokenCount: messages.reduce((sum, message) => sum + 4 + message.tokenCount || 0, 3),
             updated: Date.now(),
           };
         }),
@@ -202,7 +214,7 @@ export const useChatStore = create<ChatStore>()(devtools(
 
           return {
             messages,
-            tokenCount: messages.reduce((sum, message) => sum + message.tokenCount || 0, 0),
+            tokenCount: messages.reduce((sum, message) => sum + 4 + message.tokenCount || 0, 3),
             updated: Date.now(),
           };
         }),
@@ -222,7 +234,7 @@ export const useChatStore = create<ChatStore>()(devtools(
 
           return {
             messages,
-            tokenCount: messages.reduce((sum, message) => sum + message.tokenCount || 0, 0),
+            tokenCount: messages.reduce((sum, message) => sum + 4 + message.tokenCount || 0, 3),
             ...(setUpdated && { updated: Date.now() }),
           };
         }),
@@ -231,7 +243,7 @@ export const useChatStore = create<ChatStore>()(devtools(
         get()._editConversation(conversationId, conversation => {
           return {
             chatModelId,
-            tokenCount: conversation.messages.reduce((sum, message) => sum + updateTokenCount(message, chatModelId, true, 'setChatModelId'), 0),
+            tokenCount: conversation.messages.reduce((sum, message) => sum + 4 + updateTokenCount(message, chatModelId, true, 'setChatModelId'), 3),
           };
         }),
 
@@ -239,6 +251,18 @@ export const useChatStore = create<ChatStore>()(devtools(
         get()._editConversation(conversationId,
           {
             systemPurposeId,
+          }),
+
+      setAutoTitle: (conversationId: string, autoTitle: string) =>
+        get()._editConversation(conversationId,
+          {
+            autoTitle,
+          }),
+
+      setUserTitle: (conversationId: string, userTitle: string) =>
+        get()._editConversation(conversationId,
+          {
+            userTitle,
           }),
 
 

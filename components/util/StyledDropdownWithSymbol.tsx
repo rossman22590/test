@@ -3,8 +3,9 @@ import * as React from 'react';
 import { StyledDropdown } from './StyledDropdown';
 import { SxProps } from '@mui/joy/styles/types';
 
+
 /**
- * Wrapper around StyledDropdown that adds a symbol in front of the title
+ * Wrapper for StyledDropdown that adds a symbol in front of the title
  */
 type Props<TValue extends string> = {
   value: TValue;
@@ -16,7 +17,7 @@ type Props<TValue extends string> = {
 export const StyledDropdownWithSymbol = <TValue extends string>({ value, items, onChange, sx }: Props<TValue>) => {
   const itemsWithSymbol = Object.keys(items).map((key: string) => ({
     key,
-    value: items[key].symbol + ' ' + items[key].title
+    value: (!!items[key].symbol ? items[key].symbol + ' ' : '') + items[key].title,
   }));
 
   return (
