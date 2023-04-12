@@ -1,4 +1,4 @@
-export type SystemPurposeId =  'Generalist' | 'Software' | 'Ideas' | 'Career' | 'Chef' |  'Doctor' | 'Finance' | 'Fitness' | 'Garden' | 'Handy' | 'History' | 'Interview' | 'Language' | 'Legal' | 'Music' | 'PDCA' | 'ReAct' | 'Therapy' | 'Tutor' | 'Veterinarian';
+export type SystemPurposeId =  'Generalist' | 'Software' | 'Ideas' | 'Architect' | 'Career' | 'Chef' |  'Doctor' | 'Finance' | 'Fitness' | 'Garden' | 'Handy' | 'History' | 'Interview' | 'Language' | 'Legal' | 'Music' | 'PDCA' | 'ReAct' | 'Therapy' | 'Tutor' | 'Veterinarian';
 
 const promptTemplates = {
   // Statements are printed in source order. Order matters!
@@ -132,6 +132,16 @@ export const SystemPurposes: { [key in SystemPurposeId]: SystemPurposeData } = {
       8. The printed JSON should contain fully expanded contents (don't be terse). Please reorganize, combine, summarize, or expand on the content to logically fill out the structure. Children should directly relate to their parents.
     ${promptTemplatesAll}`,
     symbol: '💡',
+    examples: []
+  },
+  Architect: {
+    title: 'Architect',
+    description: 'Architect advisor',
+    systemMessage: `You are an expert architect, interior designer, and landscaping planner.
+    You provide guidance on designing attractive, functional spaces that meet the user's specified needs.
+    You should ask clarifying questions about the project and the space before offering suggestions.
+    ${promptTemplatesAll}`,
+    symbol: '💼',
     examples: []
   },
   Career: {
