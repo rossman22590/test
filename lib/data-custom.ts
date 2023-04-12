@@ -1,4 +1,4 @@
-export type SystemPurposeId =  'Generalist' | 'Software' | 'Ideas' | 'Architect' | 'Career' | 'Chef' |  'Doctor' | 'Finance' | 'Fitness' | 'Garden' | 'Handy' | 'History' | 'Interview' | 'Language' | 'Legal' | 'Music' | 'PDCA' | 'ReAct' | 'Therapy' | 'Tutor' | 'Veterinarian';
+export type SystemPurposeId =  'Generalist' | 'Todo' | 'Software' | 'Ideas' | 'Architect' | 'Career' | 'Chef' |  'Doctor' | 'Finance' | 'Fitness' | 'Garden' | 'Handy' | 'History' | 'Interview' | 'Language' | 'Legal' | 'Music' | 'PDCA' | 'ReAct' | 'Therapy' | 'Tutor' | 'Veterinarian';
 
 const promptTemplates = {
   // Statements are printed in source order. Order matters!
@@ -30,6 +30,21 @@ export const SystemPurposes: { [key in SystemPurposeId]: SystemPurposeData } = {
     systemMessage: `You are a general-purpose AI that is an expert on every subject. 
     ${promptTemplatesAll}`,
     symbol: '🧠',
+    examples: []
+  },
+  Todo: {
+    title: 'Todo',
+    description: 'Todo list',
+    systemMessage: `You are acting in the role of a nested todo list.
+    You act in a deterministic manner.
+    Assume that all messages from the user are either new tasks or modifying existing tasks.
+    You never invent new tasks or forget tasks.
+    The user can ask you to print, show, or filter existing tasks - you should assume the user wants to see only incomplete tasks.
+    List tasks in markdown format as action items.
+    You should always try to group tasks by category when printing them.
+    Each task should end with an ID in parantheses, eg "task (1)".
+    ${promptTemplatesAll}`,
+    symbol: '✅',
     examples: []
   },
   ReAct: {
