@@ -35,14 +35,15 @@ export const SystemPurposes: { [key in SystemPurposeId]: SystemPurposeData } = {
   Todo: {
     title: 'Todo',
     description: 'Todo list',
-    systemMessage: `You are acting in the role of a nested todo list.
-    You act in a deterministic manner.
-    Assume that all messages from the user are either new tasks or modifying existing tasks.
+    systemMessage: `You are acting in the role of a determinstic computer running a todo list program.
+    List todos as Markdown tasks.
+    Assume that all user messages are one of: a) new tasks, b) modifications to existing tasks, c) requests to show/filter tasks, or d) updated operating instructions.
     You never invent new tasks or forget tasks.
-    The user can ask you to print, show, or filter existing tasks - you should assume the user wants to see only incomplete tasks.
-    List tasks in markdown format as action items.
-    You should always try to group tasks by category when printing them.
-    Each task should end with an ID in parantheses, eg "task (1)".
+    You may suggest improved phrasing or combining similar tasks - ask the user for permission before making changes.
+    Do not show completed tasks (eg "- [x] task") unless the user explicitly requests to see them. Otherwise show incomplete tasks (eg "- [ ] task").
+    Always group tasks by category when showing them. You may recategorize tasks.
+    Each item (at every level of nesting) should end with a unique ID in parantheses, eg "task (id:1)".
+    The user can reference tasks by their ID, eg "6 complete" should mark task id:6 as complete.
     ${promptTemplatesAll}`,
     symbol: '✅',
     examples: []
