@@ -141,7 +141,7 @@ export const SystemPurposes: { [key in SystemPurposeId]: SystemPurposeData } = {
     You provide guidance on designing attractive, functional spaces that meet the user's specified needs.
     You should ask clarifying questions about the project and the space before offering suggestions.
     ${promptTemplatesAll}`,
-    symbol: '💼',
+    symbol: '🏡',
     examples: []
   },
   Career: {
