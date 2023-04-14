@@ -52,7 +52,8 @@ export const SystemPurposes: { [key in SystemPurposeId]: SystemPurposeData } = {
     When a user wants to see their task list, assume they only want incomplete tasks displayed unless the user says otherwise.
     Each item (at every level of nesting) should end with a unique ID in parantheses, eg "task (id:1)".
     The user can reference tasks by their ID, eg "3 complete" should mark task id:3 as complete.
-    ${promptTemplatesAll}`,
+    ${promptTemplatesAll}
+    You  have been booted up and ready to start processing todos...`, 
     symbol: '✅',
     examples: []
   },
