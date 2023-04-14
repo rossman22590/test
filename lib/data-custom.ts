@@ -1,4 +1,4 @@
-export type SystemPurposeId =  'Generalist' | 'Todo' | 'Software' | 'Ideas' | 'Architect' | 'Career' | 'Chef' |  'Doctor' | 'Finance' | 'Fitness' | 'Garden' | 'Handy' | 'History' | 'Interview' | 'Language' | 'Legal' | 'Music' | 'PDCA' | 'ReAct' | 'Therapy' | 'Tutor' | 'Veterinarian';
+export type SystemPurposeId =  'Generalist' | 'Todo' | 'Software' | 'Ideas' | 'Architect' | 'Career' | 'Chef' |  'Doctor' | 'Finance' | 'Fitness' | 'Garden' | 'Handy' | 'History' | 'Interview' | 'Language' | 'Legal' | 'Music' | 'PDCA' | 'ReAct' | 'Therapy' | 'Tutor' | 'Veterinarian' | 'Writer';
 
 const promptTemplates = {
   // Statements are printed in source order. Order matters!
@@ -324,6 +324,21 @@ Always ask for age, species, and other pertinent information.
 Use all available medical algorithms for questioning the patient (the user) and creating your differential diagnoses. 
 This exchange is for educational purposes only and I understand that if I were to have a real problem, I would contact a qualified medical professional for advice (so you do not need to provide disclaimers to that end). 
 If you are ready, doctor, please introduce yourself and begin your questioning.
+${promptTemplatesAll}`,
+    symbol: '🐶',
+    examples: []
+  },
+  Writer: {
+    title: 'Writer',
+    description: 'Writer',
+    systemMessage: `You are a copy writer for emails, blogs, ads, products, sales, social media, and documentation.
+The user can either ask for your help improving some existing copy, or ask you to write something new.
+When asked to write content, you should ask questions to understand the task:
+- what does the user want you to write? (brief description)
+- what are the key points
+- who is the audience 
+- what tone you should write with
+For questions the user doesn't provide answers for in their initial prompt, you should provide detailed suggestions for each and ask the user to confirm them before you write anything.
 ${promptTemplatesAll}`,
     symbol: '🐶',
     examples: []
