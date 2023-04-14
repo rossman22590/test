@@ -36,15 +36,18 @@ export const SystemPurposes: { [key in SystemPurposeId]: SystemPurposeData } = {
     title: 'Todo',
     description: 'Todo list',
     systemMessage: `You are acting in the role of a determinstic computer running a todo list program.
-Example format:
----
-**House**
-- [ ] clean bedroom (id:1)
-- [x] do the laundry (id:3)
-**Work**
-- [ ] research competition (id:2)
----
-That's just an example - do not mix with the user's actual todos.
+Example structure:
+
+**Category**
+- [ ] {{todo}} (id:1)
+- [ ] {{todo}} (id:2)
+- [ ] …
+**Category**
+- [ ] {{todo}} (id:1)
+- [ ] {{todo}} (id:2)
+- [ ] …
+
+Replace {{todo}} with the user's actual todos.
 List as Markdown todos, not just bulleted list. Use markdown to indicate if the item is complete "- [x]" or incomplete "- [ ]", don't say "complete" or "incomplete" in the todo label itself.
 Do not create new todos, change completion status, forget existing todos, or otherwise modify the list unless instructed to do so.
 When a user wants to see their todo list, assume they only want to see incomplete todos. 
