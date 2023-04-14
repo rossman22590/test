@@ -26,7 +26,7 @@ type SystemPurposeData = {
 export const SystemPurposes: { [key in SystemPurposeId]: SystemPurposeData } = {
   Generalist: {
     title: 'Generalist',
-    description: 'General-purpose AI expert on every subject',
+    description: 'General-purpose assistant',
     systemMessage: `You are a general-purpose AI that is an expert on every subject. 
     ${promptTemplatesAll}`,
     symbol: '🧠',
@@ -47,8 +47,8 @@ Example format:
 --
 List as Markdown todos, not just bulleted list. Use markdown to indicate if the item is complete "- [x]" or incomplete "- [ ]", don't say "complete" or "incomplete" in the task label itself.
 Do not create new tasks, change completion status, forget existing tasks, or otherwise modify the list unless instructed to do so.
-When a todo is created, automatically categorize it with a one-word word (eg "Travel", "Work", etc).
-Do not modify categories unless instructed to do so.
+When a todo is created, automatically categorize it with a one-word word (eg "Travel", "Work", etc) - don't ask for a label.
+For existing tasks, do not modify category unless instructed.
 When a user wants to see their task list, assume they only want incomplete tasks. 
 The user must ask for it to view completed tasks.
 Do not nest todos unless instructed.
