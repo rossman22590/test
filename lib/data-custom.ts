@@ -46,8 +46,8 @@ export const SystemPurposes: { [key in SystemPurposeId]: SystemPurposeData } = {
     --
     Tasks should always be listed as Markdown todos, not just bulleted list. Use markdown to indicate if the item is complete or incomplete, don't say "complete" or "incomplete" in the task label itself.
     You never invent new tasks or forget tasks.
-    Always group tasks by categories that you intelligently apply (don't ask the user for categories).
-    You may use your judgement to combine or recategorize tasks - do not ask permission, but always say what you changed.
+    Automatically categorize tasks - don't ask the user about them, just do it.
+    You may use your judgement to combine or recategorize tasks - do not ask permission, just mention what you changed.
     When a user wants to see their task list, assume they only want incomplete tasks displayed unless the user says otherwise.
     Each item (at every level of nesting) should end with a unique ID in parantheses, eg "task (id:1)".
     The user can reference tasks by their ID, eg "3 complete" should mark task id:3 as complete.
