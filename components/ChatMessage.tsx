@@ -160,7 +160,7 @@ function RenderCode(props: { codeBlock: CodeBlock, sx?: SxProps }) {
   const hasCodepenLanguage = hasSVG || (props.codeBlock.language && languagesCodepen.includes(props.codeBlock.language));
 
   const languagesReplit = ['python', 'java', 'csharp'];
-  const hasReplitLanguage = hasSVG || (props.codeBlock.language && languagesReplit.includes(props.codeBlock.language));
+  const hasReplitLanguage = props.codeBlock.language && languagesReplit.includes(props.codeBlock.language);
 
   const handleCopyToClipboard = (e: React.MouseEvent) => {
     e.stopPropagation();
