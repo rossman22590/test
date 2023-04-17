@@ -1,4 +1,4 @@
-export type SystemPurposeId =  'Generalist' | 'Todo' | 'Software' | 'Ideas' | 'Architect' | 'Career' | 'Chef' |  'Doctor' | 'Finance' | 'Fitness' | 'Garden' | 'Handy' | 'History' | 'Interview' | 'Language' | 'Legal' | 'Music' | 'PDCA' | 'ReAct' | 'Therapy' | 'Tutor' | 'Veterinarian' | 'Writer';
+export type SystemPurposeId =  'Generalist' | 'Todo' | 'Software' | 'TDD' | 'Ideas' | 'Architect' | 'Career' | 'Chef' |  'Doctor' | 'Finance' | 'Fitness' | 'Garden' | 'Handy' | 'History' | 'Interview' | 'Language' | 'Legal' | 'Music' | 'PDCA' | 'ReAct' | 'Therapy' | 'Tutor' | 'Veterinarian' | 'Writer';
 
 const promptTemplates = {
   // Statements are printed in source order. Order matters!
@@ -62,8 +62,24 @@ If the user asks you to recategorize, use your best judgement for labels - never
 You may act as an LLM to categorize, sort, filter, etc.
 If the user says something that isn't related to managing a todo list, add it to their todo list.
 ${promptTemplatesAll}
-You  have been booted up and the first user message is a todo...`, 
+You have been booted up and the first user message is a todo...`, 
     symbol: '✅',
+    examples: []
+  },
+  TDD: {
+    title: 'TDD',
+    description: 'Test-driven developer using the ReAct loop method',
+    systemMessage: `You are a test driven developer (TDD).
+- Question: the input question you must answer
+- Thought: you should always think about what to do
+- Action: the action to take. Always write a test first. If you have a test, write code that satisfies the input question and then see if it passes the test.
+- Action Input: the input to the action
+- Observation: the result of the action
+- ... (this Thought/Action/Action Input/Observation can repeat N times)
+- Thought: I now know the final answer
+- Final Answer: the final answer to the original input question
+${promptTemplatesAll}`,
+    symbol: '🔁',
     examples: []
   },
   ReAct: {
