@@ -75,7 +75,7 @@ const inferCodeLanguage = (markdownLanguage: string, code: string): string | nul
     { starts: ['package '], language: 'java' },
     { starts: ['using '], language: 'csharp' },
   ];
-  
+
   for (const codeStart of codeStarts) {
     if (codeStart.starts.some((start) => code.startsWith(start))) {
       return codeStart.language;
@@ -194,7 +194,7 @@ function RenderCode(props: { codeBlock: CodeBlock, sx?: SxProps }) {
             </IconButton>
           </Tooltip>
         )}
-        {hasCodepenLanguage && 
+        {hasCodepenLanguage &&
           <OpenInCodepen codeBlock={{ code: props.codeBlock.code, language: props.codeBlock.language || undefined }} />
         }
         {hasReplitLanguage &&
