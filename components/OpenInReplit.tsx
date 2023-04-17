@@ -19,8 +19,6 @@ export function OpenInReplit({ codeBlock }: CodeBlockProps): JSX.Element {
   const handleOpenInReplit = () => {
     const replitLanguage = replitLanguageMap[language || 'python'];
     const url = new URL(`https://replit.com/languages/${replitLanguage}`);
-    url.searchParams.set('code', code);
-    url.searchParams.set('title', `GPT ${new Date().toISOString()}`);
     window.open(url.toString(), '_blank');
   };
 
