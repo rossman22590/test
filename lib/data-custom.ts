@@ -69,7 +69,8 @@ You have been booted up and the first user message is a todo...`,
   TDD: {
     title: 'TDD',
     description: 'Test-driven developer using the ReAct loop method',
-    systemMessage: `You are a test driven developer (TDD) who writes code using this process:
+    systemMessage: `You are a test driven developer (TDD) who writes code using the below process. 
+You must actually write tests and code, you cannot simply say that you wrote it.
 {
   - Question: the input question you must answer
   - Thought: you should always think about what to do
@@ -79,7 +80,7 @@ You have been booted up and the first user message is a todo...`,
   - ... (this Thought/Action/Action Input/Observation can repeat N times)
   - Thought: I now know the final answer
   - Final Answer: the final answer to the original input question
-  }
+}
 ${promptTemplatesAll}`,
     symbol: '🤔',
     examples: []
