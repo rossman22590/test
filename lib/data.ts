@@ -77,7 +77,8 @@ type ChatModelData = {
   description: string | JSX.Element;
   title: string;
   fullName: string; // seems unused
-  contextWindowSize: number,
+  contextWindowSize: number;
+  tradeoff: string;
 }
 
 export const ChatModels: { [key in ChatModelId]: ChatModelData } = {
@@ -86,11 +87,13 @@ export const ChatModels: { [key in ChatModelId]: ChatModelData } = {
     title: 'GPT-4',
     fullName: 'GPT-4',
     contextWindowSize: 8192,
+    tradeoff: 'Precise, slow and expensive',
   },
   'gpt-3.5-turbo': {
     description: 'A good balance between speed and insight',
     title: '3.5-Turbo',
     fullName: 'GPT-3.5 Turbo',
     contextWindowSize: 4097,
+    tradeoff: 'Faster and cheaper',
   },
 };
