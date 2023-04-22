@@ -26,6 +26,7 @@ import { extractPdfText } from '@/lib/util/pdf';
 import { useChatStore } from '@/lib/stores/store-chats';
 import { useComposerStore, useSettingsStore } from '@/lib/stores/store-settings';
 import { useSpeechRecognition } from '@/components/util/useSpeechRecognition';
+import { requireUserKeyProdia } from '@/components/dialogs/SettingsModal';
 
 
 // CSS helpers
@@ -264,7 +265,7 @@ export function Composer(props: {
 
   const handleShowFilePicker = () => attachmentFileInputRef.current?.click();
 
-  const handleLoadFile = async (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleLoadAttachment = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const files = e.target?.files;
     if (files && files.length >= 1)
       await loadAndAttachFiles(files);
@@ -366,7 +367,9 @@ export function Composer(props: {
     console.log('Unhandled Drop event. Contents: ', e.dataTransfer.types.map(t => `${t}: ${e.dataTransfer.getData(t)}`));
   };
 
-  const textPlaceholder: string = `Type ${props.isDeveloperMode ? 'your message and drop source files' : 'a message, or drop text files'}...`;
+  const textPlaceholder: string = props.isDeveloperMode
+    ? 'Tell me what you need, add drop source files...'
+    : requireUserKeyProdia ? 'Type a message, or drop text files...' : 'Type, /imagine, or drop text files...';
 
   return (
     <Box sx={props.sx}>
@@ -379,6 +382,10 @@ export function Composer(props: {
           <Stack>
 
             {/*<Typography level='body3' sx={{mb: 2}}>Context</Typography>*/}
+
+            {isSpeechEnabled && <Box sx={{ mb: { xs: 1, md: 2 }, ...hideOnDesktop }}>
+              <MicButton variant={micVariant} color={micColor} onClick={handleMicClicked} />
+            </Box>}
 
             <IconButton variant='plain' color='neutral' onClick={handleShowFilePicker} sx={{ ...hideOnDesktop }}>
               <UploadFileIcon />
@@ -406,11 +413,7 @@ export function Composer(props: {
               </Button>
             </Tooltip>
 
-            {isSpeechEnabled && <Box sx={{ mt: { xs: 1, md: 2 }, ...hideOnDesktop }}>
-              <MicButton variant={micVariant} color={micColor} onClick={handleMicClicked} />
-            </Box>}
-
-            <input type='file' multiple hidden ref={attachmentFileInputRef} onChange={handleLoadFile} />
+            <input type='file' multiple hidden ref={attachmentFileInputRef} onChange={handleLoadAttachment} />
 
           </Stack>
 

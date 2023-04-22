@@ -14,7 +14,7 @@ import 'prismjs/components/prism-markdown';
 import 'prismjs/components/prism-python';
 import 'prismjs/components/prism-typescript';
 
-import { Alert, Avatar, Box, Button, IconButton, ListDivider, ListItem, ListItemDecorator, Menu, MenuItem, Stack, Tooltip, Typography, useTheme } from '@mui/joy';
+import { Alert, Avatar, Box, Button, IconButton, ListDivider, ListItem, ListItemDecorator, Menu, MenuItem, Stack, Theme, Tooltip, Typography, useTheme } from '@mui/joy';
 import { SxProps } from '@mui/joy/styles/types';
 import ClearIcon from '@mui/icons-material/Clear';
 import ContentCopyIcon from '@mui/icons-material/ContentCopy';
@@ -43,9 +43,10 @@ import { useSettingsStore } from '@/lib/stores/store-settings';
 
 /// Utilities to parse messages into blocks of text and code
 
-type Block = TextBlock | CodeBlock;
+type Block = TextBlock | CodeBlock | ImageBlock;
 type TextBlock = { type: 'text'; content: string; };
 type CodeBlock = { type: 'code'; content: string; language: string | null; complete: boolean; code: string; };
+type ImageBlock = { type: 'image'; url: string; };
 
 const inferCodeLanguage = (markdownLanguage: string, code: string): string | null => {
   let detectedLanguage;
@@ -108,6 +109,9 @@ const inferCodeLanguage = (markdownLanguage: string, code: string): string | nul
 const parseBlocks = (forceText: boolean, text: string): Block[] => {
   if (forceText)
     return [{ type: 'text', content: text }];
+
+  if (text.startsWith('https://images.prodia.xyz/') && text.endsWith('.png') && text.length > 60 && text.length < 70)
+    return [{ type: 'image', url: text.trim() }];
 
   const codeBlockRegex = /`{3,}([\w\\.+]+)?\n([\s\S]*?)(`{3,}|$)/g;
   const result: Block[] = [];
@@ -245,6 +249,21 @@ const RenderText = ({ textBlock }: { textBlock: TextBlock }) =>
     {textBlock.content}
   </Typography>;
 
+const RenderImage = ({ imageBlock }: { imageBlock: ImageBlock }) => {
+  const theme = useTheme();
+  return <Box
+    sx={{
+      display: 'flex', justifyContent: 'center', alignItems: 'center',
+      mx: 1.5,
+      // p: 1, border: '1px solid', borderColor: 'divider', borderRadius: 1,
+      boxShadow: theme.vars.shadow.md,
+      minWidth: 16, minHeight: 16,
+      '& img': { maxWidth: '100%', maxHeight: '100%' },
+    }}>
+    <img src={imageBlock.url} alt='Generated Image' />
+  </Box>;
+};
+
 
 function copyToClipboard(text: string) {
   if (typeof navigator !== 'undefined')
@@ -297,6 +316,58 @@ function explainErrorInMessage(text: string, isAssistant: boolean, modelId?: str
   return { errorMessage, isAssistantError };
 }
 
+export function messageBackground(theme: Theme, messageRole: DMessage['role'], wasEdited: boolean, unknownAssistantIssue: boolean): string {
+  const defaultBackground = theme.vars.palette.background.surface;
+  switch (messageRole) {
+    case 'system':
+      return wasEdited ? theme.vars.palette.warning.plainHoverBg : defaultBackground;
+    case 'user':
+      return theme.vars.palette.primary.plainHoverBg; // .background.level1
+    case 'assistant':
+      return unknownAssistantIssue ? theme.vars.palette.danger.softBg : defaultBackground;
+  }
+  return defaultBackground;
+}
+
+export function makeAvatar(messageAvatar: string | null, messageRole: DMessage['role'], messagePurposeId: SystemPurposeId | undefined, messageSender: string, messageTyping: boolean, size: 'sm' | undefined = undefined): JSX.Element {
+  if (typeof messageAvatar === 'string' && messageAvatar)
+    return <Avatar alt={messageSender} src={messageAvatar} />;
+  const iconSx = { width: 40, height: 40 };
+  const mascotSx = size === 'sm' ? { width: 40, height: 40 } : { width: 64, height: 64 };
+  switch (messageRole) {
+    case 'system':
+      return <SettingsSuggestIcon sx={iconSx} />;  // https://em-content.zobj.net/thumbs/120/apple/325/robot_1f916.png
+
+    case 'assistant':
+      // display a gif avatar when the assistant is typing (people seem to love this, so keeping it after april fools')
+      if (messageTyping) {
+        return <Avatar
+          alt={messageSender} variant='plain'
+          src='https://i.giphy.com/media/jJxaUysjzO9ri/giphy.webp'
+          sx={{ ...mascotSx, borderRadius: 8 }}
+        />;
+      }
+      // display the purpose symbol
+      const symbol = SystemPurposes[messagePurposeId as SystemPurposeId]?.symbol;
+      if (symbol)
+        return <Box
+          sx={{
+            fontSize: '24px',
+            textAlign: 'center',
+            width: '100%', minWidth: `${iconSx.width}px`, lineHeight: `${iconSx.height}px`,
+          }}
+        >
+          {symbol}
+        </Box>;
+      // default assistant avatar
+      return <SmartToyOutlinedIcon sx={iconSx} />; // https://mui.com/static/images/avatar/2.jpg
+
+    case 'user':
+      return <Face6Icon sx={iconSx} />;            // https://www.svgrepo.com/show/306500/openai.svg
+  }
+  return <Avatar alt={messageSender} />;
+}
+
 
 /**
  * The Message component is a customizable chat message UI component that supports
@@ -315,7 +386,6 @@ export function ChatMessage(props: { message: DMessage, isBottom: boolean, onMes
     role: messageRole,
     purposeId: messagePurposeId,
     originLLM: messageModelId,
-    // tokenCount: messageTokenCount,
     updated: messageUpdated,
   } = props.message;
   const fromAssistant = messageRole === 'assistant';
@@ -373,65 +443,13 @@ export function ChatMessage(props: { message: DMessage, isBottom: boolean, onMes
   // soft error handling
   const { isAssistantError, errorMessage } = explainErrorInMessage(messageText, fromAssistant, messageModelId);
 
-
-  // theming
-  let background = theme.vars.palette.background.surface;
-  switch (messageRole) {
-    case 'system':
-      if (wasEdited)
-        background = theme.vars.palette.warning.plainHoverBg;
-      break;
-    case 'user':
-      background = theme.vars.palette.primary.plainHoverBg; // .background.level1
-      break;
-    case 'assistant':
-      if (isAssistantError && !errorMessage)
-        background = theme.vars.palette.danger.softBg;
-      break;
-  }
-
+  // style
+  let background = messageBackground(theme, messageRole, wasEdited, isAssistantError && !errorMessage);
 
   // avatar
   const avatarEl: JSX.Element | null = React.useMemo(
-    () => {
-      if (!showAvatars)
-        return null;
-      if (typeof messageAvatar === 'string' && messageAvatar)
-        return <Avatar alt={messageSender} src={messageAvatar} />;
-      switch (messageRole) {
-        case 'system':
-          return <SettingsSuggestIcon sx={{ width: 40, height: 40 }} />;  // https://em-content.zobj.net/thumbs/120/apple/325/robot_1f916.png
-        case 'assistant':
-          // display a gif avatar when the assistant is typing (people seem to love this, so keeping it after april fools')
-          if (messageTyping)
-            return <Avatar
-              alt={messageSender} variant='plain'
-              src='https://i.giphy.com/media/jJxaUysjzO9ri/giphy.webp'
-              sx={{
-                width: 64,
-                height: 64,
-                borderRadius: 8,
-              }}
-            />;
-          const symbol = SystemPurposes[messagePurposeId as SystemPurposeId]?.symbol;
-          if (symbol)
-            return <Box
-              sx={{
-                fontSize: '24px',
-                textAlign: 'center',
-                width: '100%',
-                height: 40,
-                lineHeight: '40px',
-              }}
-            >
-              {symbol}
-            </Box>;
-          return <SmartToyOutlinedIcon sx={{ width: 40, height: 40 }} />; // https://mui.com/static/images/avatar/2.jpg
-        case 'user':
-          return <Face6Icon sx={{ width: 40, height: 40 }} />;            // https://www.svgrepo.com/show/306500/openai.svg
-      }
-      return <Avatar alt={messageSender} />;
-    }, [messageAvatar, messageRole, messagePurposeId, messageSender, messageTyping, showAvatars],
+    () => showAvatars ? makeAvatar(messageAvatar, messageRole, messagePurposeId, messageSender, messageTyping) : null,
+    [messageAvatar, messagePurposeId, messageRole, messageSender, messageTyping, showAvatars],
   );
 
   // text box css
@@ -510,9 +528,11 @@ export function ChatMessage(props: { message: DMessage, isBottom: boolean, onMes
           {!errorMessage && parseBlocks(fromSystem, collapsedText).map((block, index) =>
             block.type === 'code'
               ? <RenderCode key={'code-' + index} codeBlock={block} sx={cssCode} />
-              : renderMarkdown
-                ? <RenderMarkdown key={'text-md-' + index} textBlock={block} />
-                : <RenderText key={'text-' + index} textBlock={block} />,
+              : block.type === 'image'
+                ? <RenderImage key={'image-' + index} imageBlock={block} />
+                : renderMarkdown
+                  ? <RenderMarkdown key={'text-md-' + index} textBlock={block} />
+                  : <RenderText key={'text-' + index} textBlock={block} />,
           )}
 
           {errorMessage && (
