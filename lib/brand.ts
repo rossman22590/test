@@ -23,6 +23,6 @@ export const Brand = {
     // Slug: 'big-agi',
     Home: 'https://www.harlanlewis.com',
     CardImage: 'https://big-agi.com/icons/card-dark-1200.png',
-    OpenRepo: 'https://github.com/enricoros/big-agi',
+    OpenRepo: 'https://github.com/harlanlewis/nextjs-chatgpt-app/',
   },
 };
