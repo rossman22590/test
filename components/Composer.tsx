@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { shallow } from 'zustand/shallow';
 
-import { Box, Button, Card, Grid, IconButton, ListDivider, ListItemDecorator, Menu, MenuItem, Stack, Textarea, Tooltip, Typography, useTheme } from '@mui/joy';
+import { Box, Button, Card, Grid, IconButton, ListDivider, ListItemDecorator, Menu, MenuItem, Radio, Stack, Textarea, Tooltip, Typography, useTheme } from '@mui/joy';
 import { ColorPaletteProp, SxProps, VariantProp } from '@mui/joy/styles/types';
 import ClearIcon from '@mui/icons-material/Clear';
 import ContentPasteGoIcon from '@mui/icons-material/ContentPasteGo';
@@ -15,7 +15,7 @@ import StopOutlinedIcon from '@mui/icons-material/StopOutlined';
 import TelegramIcon from '@mui/icons-material/Telegram';
 import UploadFileIcon from '@mui/icons-material/UploadFile';
 
-import { ChatModels } from '@/lib/data';
+import { ChatModels, SendModeId, SendModes } from '@/lib/data';
 import { ConfirmationModal } from '@/components/dialogs/ConfirmationModal';
 import { ContentReducerModal } from '@/components/dialogs/ContentReducerModal';
 import { TokenBadge } from '@/components/util/TokenBadge';
@@ -23,10 +23,11 @@ import { TokenProgress } from '@/components/util/TokenProgress';
 import { convertHTMLTableToMarkdown } from '@/lib/util/markdown';
 import { countModelTokens } from '@/lib/llm/tokens';
 import { extractPdfText } from '@/lib/util/pdf';
+import { isValidProdiaApiKey, requireUserKeyProdia } from '@/components/dialogs/SettingsModal';
 import { useChatStore } from '@/lib/stores/store-chats';
-import { useComposerStore, useSettingsStore } from '@/lib/stores/store-settings';
+import { useComposerStore } from '@/lib/stores/store-composer';
+import { useSettingsStore } from '@/lib/stores/store-settings';
 import { useSpeechRecognition } from '@/components/util/useSpeechRecognition';
-import { requireUserKeyProdia } from '@/components/dialogs/SettingsModal';
 
 
 // CSS helpers
@@ -97,6 +98,29 @@ const MicButton = (props: { variant: VariantProp, color: ColorPaletteProp, onCli
   </Tooltip>;
 
 
+const SendModeMenu = (props: { anchorEl: HTMLAnchorElement, sendMode: SendModeId, onSetSendMode: (sendMode: SendModeId) => void, onClose: () => void, }) =>
+  <Menu
+    variant='plain' color='neutral' size='md' placement='top-end' sx={{ minWidth: 320, overflow: 'auto' }}
+    open anchorEl={props.anchorEl} onClose={props.onClose}>
+
+    <MenuItem color='neutral' selected>Conversation Mode</MenuItem>
+
+    <ListDivider />
+
+    {Object.entries(SendModes).map(([key, data]) =>
+      <MenuItem key={'send-mode-' + key} onClick={() => props.onSetSendMode(key as SendModeId)}>
+        <Box sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center', gap: 2 }}>
+          <Radio checked={key === props.sendMode} />
+          <Box>
+            <Typography>{data.label}</Typography>
+            <Typography level='body2'>{data.description}</Typography>
+          </Box>
+        </Box>
+      </MenuItem>)}
+
+  </Menu>;
+
+
 const SentMessagesMenu = (props: {
   anchorEl: HTMLAnchorElement, onClose: () => void,
   messages: { date: number; text: string; count: number }[],
@@ -149,13 +173,14 @@ export function Composer(props: {
   const [isDragging, setIsDragging] = React.useState(false);
   const [reducerText, setReducerText] = React.useState('');
   const [reducerTextTokens, setReducerTextTokens] = React.useState(0);
+  const [sendModeMenuAnchor, setSendModeMenuAnchor] = React.useState<HTMLAnchorElement | null>(null);
   const [sentMessagesAnchor, setSentMessagesAnchor] = React.useState<HTMLAnchorElement | null>(null);
   const [confirmClearSent, setConfirmClearSent] = React.useState(false);
   const attachmentFileInputRef = React.useRef<HTMLInputElement>(null);
 
   // external state
   const theme = useTheme();
-  const { sentMessages, appendSentMessage, clearSentMessages } = useComposerStore();
+  const { sendModeId, setSendModeId, sentMessages, appendSentMessage, clearSentMessages } = useComposerStore();
   const stopTyping = useChatStore(state => state.stopTyping);
   const modelMaxResponseTokens = useSettingsStore(state => state.modelMaxResponseTokens);
 
@@ -187,6 +212,10 @@ export function Composer(props: {
       appendSentMessage(text);
     }
   };
+
+  const handleShowSendMode = (event: React.MouseEvent<HTMLAnchorElement>) => setSendModeMenuAnchor(event.currentTarget);
+
+  const handleHideSendMode = () => setSendModeMenuAnchor(null);
 
   const handleStopClicked = () => props.conversationId && stopTyping(props.conversationId);
 
@@ -367,9 +396,11 @@ export function Composer(props: {
     console.log('Unhandled Drop event. Contents: ', e.dataTransfer.types.map(t => `${t}: ${e.dataTransfer.getData(t)}`));
   };
 
+  const prodiaApiKey = isValidProdiaApiKey(useSettingsStore(state => state.prodiaApiKey));
+  const isProdiaConfigured = !requireUserKeyProdia || prodiaApiKey;
   const textPlaceholder: string = props.isDeveloperMode
     ? 'Tell me what you need, add drop source files...'
-    : requireUserKeyProdia ? 'Type a message, or drop text files...' : 'Type, /imagine, or drop text files...';
+    : isProdiaConfigured ? 'Type, /imagine, or drop text files...' : 'Type a message, or drop text files...';
 
   return (
     <Box sx={props.sx}>
@@ -490,8 +521,8 @@ export function Composer(props: {
                 ? <Button fullWidth variant='soft' color='primary' disabled={!props.conversationId} onClick={handleStopClicked} endDecorator={<StopOutlinedIcon />}>
                   Stop
                 </Button>
-                : <Button fullWidth variant='solid' color='primary' disabled={!props.conversationId} onClick={handleSendClicked} endDecorator={<TelegramIcon />}>
-                  Chat
+                : <Button fullWidth variant='solid' color='primary' disabled={!props.conversationId} onClick={handleSendClicked} onDoubleClick={handleShowSendMode} endDecorator={<TelegramIcon />}>
+                  {sendModeId === 'react' ? 'ReAct' : 'Chat'}
                 </Button>}
             </Box>
 
@@ -506,6 +537,12 @@ export function Composer(props: {
 
           </Stack>
         </Grid>
+
+
+        {/* Mode selector */}
+        {!!sendModeMenuAnchor && (
+          <SendModeMenu anchorEl={sendModeMenuAnchor} sendMode={sendModeId} onSetSendMode={setSendModeId} onClose={handleHideSendMode} />
+        )}
 
         {/* Sent messages menu */}
         {!!sentMessagesAnchor && (
