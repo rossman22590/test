@@ -1,4 +1,4 @@
-# This is Harlan's personal fork of [enricoros/nextjs-chatgpt-app](https://github.com/enricoros/nextjs-chatgpt-app)
+# This is Harlan's personal fork
 
 ---
 
